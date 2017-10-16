@@ -4,8 +4,6 @@ import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.model.*;
 
 import java.io.File;
-import us.filin.helpwanted.model.ModelApiResponse;
-import us.filin.helpwanted.model.Project;
 
 import java.util.List;
 import us.filin.helpwanted.api.NotFoundException;
@@ -20,7 +18,7 @@ import javax.validation.constraints.*;
 
 public class SellerApiServiceImpl extends SellerApiService {
     @Override
-    public Response addSellerProject(String username, Project body, SecurityContext securityContext) throws NotFoundException {
+    public Response addSellerProject(String username, ProjectModel body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -40,7 +38,7 @@ public class SellerApiServiceImpl extends SellerApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response updateSellerProject(String username, String projectId, Project body, SecurityContext securityContext) throws NotFoundException {
+    public Response updateSellerProject(String username, String projectId, ProjectModel body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

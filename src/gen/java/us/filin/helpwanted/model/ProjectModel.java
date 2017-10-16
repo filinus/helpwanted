@@ -21,13 +21,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * Project
+ * ProjectModel
  */
 
-public class Project   {
+public class ProjectModel  implements Serializable {
   @JsonProperty("id")
   private Long id = null;
 
@@ -78,7 +79,7 @@ public class Project   {
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  public Project id(Long id) {
+  public ProjectModel id(Long id) {
     this.id = id;
     return this;
   }
@@ -97,7 +98,7 @@ public class Project   {
     this.id = id;
   }
 
-  public Project name(String name) {
+  public ProjectModel name(String name) {
     this.name = name;
     return this;
   }
@@ -116,7 +117,7 @@ public class Project   {
     this.name = name;
   }
 
-  public Project description(String description) {
+  public ProjectModel description(String description) {
     this.description = description;
     return this;
   }
@@ -135,12 +136,12 @@ public class Project   {
     this.description = description;
   }
 
-  public Project files(List<String> files) {
+  public ProjectModel files(List<String> files) {
     this.files = files;
     return this;
   }
 
-  public Project addFilesItem(String filesItem) {
+  public ProjectModel addFilesItem(String filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<String>();
     }
@@ -162,7 +163,7 @@ public class Project   {
     this.files = files;
   }
 
-  public Project status(StatusEnum status) {
+  public ProjectModel status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -190,7 +191,7 @@ public class Project   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Project project = (Project) o;
+    ProjectModel project = (ProjectModel) o;
     return Objects.equals(this.id, project.id) &&
         Objects.equals(this.name, project.name) &&
         Objects.equals(this.description, project.description) &&
@@ -207,7 +208,7 @@ public class Project   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Project {\n");
+    sb.append("class ProjectModel {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

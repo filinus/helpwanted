@@ -7,7 +7,7 @@ import us.filin.helpwanted.api.factories.BuyerApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import us.filin.helpwanted.model.Project;
+import us.filin.helpwanted.model.ProjectModel;
 
 import java.util.Map;
 import java.util.List;
@@ -58,9 +58,9 @@ public class BuyerApi  {
     @Path("/{username}/projects/{orderId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Bid on project", notes = "", response = Project.class, tags={ "buyer", })
+    @io.swagger.annotations.ApiOperation(value = "Bid on project", notes = "", response = ProjectModel.class, tags={ "buyer", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Project.class),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectModel.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
@@ -75,9 +75,9 @@ public class BuyerApi  {
     @Path("/{username}/projects/{orderId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Bookmark project", notes = "", response = Project.class, tags={ "buyer", })
+    @io.swagger.annotations.ApiOperation(value = "Bookmark project", notes = "", response = ProjectModel.class, tags={ "buyer", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Project.class),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectModel.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
@@ -107,9 +107,9 @@ public class BuyerApi  {
     @Path("/{username}/projects/{orderId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Get buyers bid status in specified project", notes = "", response = Project.class, tags={ "buyer", })
+    @io.swagger.annotations.ApiOperation(value = "Get buyers bid status in specified project", notes = "", response = ProjectModel.class, tags={ "buyer", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Project.class),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectModel.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         

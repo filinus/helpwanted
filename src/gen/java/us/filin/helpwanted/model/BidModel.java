@@ -20,13 +20,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * Bid
+ * BidModel
  */
 
-public class Bid   {
+public class BidModel  implements Serializable {
   @JsonProperty("id")
   private Long id = null;
 
@@ -70,7 +71,7 @@ public class Bid   {
   @JsonProperty("pricePerUnit")
   private BigDecimal pricePerUnit = null;
 
-  public Bid id(Long id) {
+  public BidModel id(Long id) {
     this.id = id;
     return this;
   }
@@ -89,7 +90,7 @@ public class Bid   {
     this.id = id;
   }
 
-  public Bid quantity(Integer quantity) {
+  public BidModel quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -108,7 +109,7 @@ public class Bid   {
     this.quantity = quantity;
   }
 
-  public Bid unit(UnitEnum unit) {
+  public BidModel unit(UnitEnum unit) {
     this.unit = unit;
     return this;
   }
@@ -127,7 +128,7 @@ public class Bid   {
     this.unit = unit;
   }
 
-  public Bid pricePerUnit(BigDecimal pricePerUnit) {
+  public BidModel pricePerUnit(BigDecimal pricePerUnit) {
     this.pricePerUnit = pricePerUnit;
     return this;
   }
@@ -155,7 +156,7 @@ public class Bid   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Bid bid = (Bid) o;
+    BidModel bid = (BidModel) o;
     return Objects.equals(this.id, bid.id) &&
         Objects.equals(this.quantity, bid.quantity) &&
         Objects.equals(this.unit, bid.unit) &&
@@ -171,7 +172,7 @@ public class Bid   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Bid {\n");
+    sb.append("class BidModel {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");

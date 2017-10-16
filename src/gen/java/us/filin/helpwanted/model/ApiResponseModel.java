@@ -18,33 +18,78 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * ParticipatedProject
+ * ApiResponseModel
  */
 
-public class ParticipatedProject   {
-  @JsonProperty("id")
-  private Long id = null;
+public class ApiResponseModel  implements Serializable {
+  @JsonProperty("code")
+  private Integer code = null;
 
-  public ParticipatedProject id(Long id) {
-    this.id = id;
+  @JsonProperty("type")
+  private String type = null;
+
+  @JsonProperty("message")
+  private String message = null;
+
+  public ApiResponseModel code(Integer code) {
+    this.code = code;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get code
+   * @return code
    **/
-  @JsonProperty("id")
+  @JsonProperty("code")
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Integer getCode() {
+    return code;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setCode(Integer code) {
+    this.code = code;
+  }
+
+  public ApiResponseModel type(String type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+   **/
+  @JsonProperty("type")
+  @ApiModelProperty(value = "")
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public ApiResponseModel message(String message) {
+    this.message = message;
+    return this;
+  }
+
+  /**
+   * Get message
+   * @return message
+   **/
+  @JsonProperty("message")
+  @ApiModelProperty(value = "")
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
   }
 
 
@@ -56,22 +101,26 @@ public class ParticipatedProject   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ParticipatedProject participatedProject = (ParticipatedProject) o;
-    return Objects.equals(this.id, participatedProject.id);
+    ApiResponseModel _apiResponse = (ApiResponseModel) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(code, type, message);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ParticipatedProject {\n");
+    sb.append("class ApiResponseModel {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }

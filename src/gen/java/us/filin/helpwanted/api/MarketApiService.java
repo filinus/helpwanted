@@ -5,7 +5,7 @@ import us.filin.helpwanted.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
-import us.filin.helpwanted.model.Project;
+import us.filin.helpwanted.model.ProjectModel;
 
 import java.util.List;
 import us.filin.helpwanted.api.NotFoundException;

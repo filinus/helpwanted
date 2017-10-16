@@ -3,14 +3,9 @@ package us.filin.helpwanted.api.impl;
 import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.model.*;
 
-import us.filin.helpwanted.model.Project;
-
 import java.util.List;
 import us.filin.helpwanted.api.NotFoundException;
 
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
