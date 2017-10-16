@@ -5,6 +5,7 @@ import us.filin.helpwanted.model.*;
 
 import us.filin.helpwanted.model.Project;
 
+import java.util.Collections;
 import java.util.List;
 import us.filin.helpwanted.api.NotFoundException;
 
@@ -24,8 +25,7 @@ public class MarketApiServiceImpl extends MarketApiService {
         Project project = new Project();
         project.description("some description");
         
-        
-        return Response.ok().entity(project).build();
+        return Response.ok().entity(Collections.singletonList(project)).build();
     }
     @Override
     public Response getProjectById(Long projectId, SecurityContext securityContext) throws NotFoundException {
