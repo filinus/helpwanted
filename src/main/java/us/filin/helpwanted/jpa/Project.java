@@ -1,14 +1,13 @@
 package us.filin.helpwanted.jpa;
 
-import us.filin.helpwanted.model.ProjectModel;
-
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Project implements Persistent {
   
-  @Id
+  @Id @GeneratedValue
   private Long id;
   
   private String description;
