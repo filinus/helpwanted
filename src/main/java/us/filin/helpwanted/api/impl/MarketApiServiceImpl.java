@@ -29,9 +29,8 @@ public class MarketApiServiceImpl extends MarketApiService {
         return Response.ok().entity(projectJsons).build();
     }
     @Override
-    public Response getProjectById(Long projectId, SecurityContext securityContext) throws NotFoundException {
+    public Response getProjectById(String projectId, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
-    
 }
