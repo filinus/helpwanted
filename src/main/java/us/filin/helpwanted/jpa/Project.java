@@ -55,7 +55,7 @@ public class Project extends Persistent {
     }
   }
   
-  public enum VisibiltyStatus {
+  public enum VisibilityStatus {
     HIDDEN,
     VISIBLE,
     CLOSED_MODERATOR
@@ -72,7 +72,7 @@ public class Project extends Persistent {
   
   @Enumerated(EnumType.STRING) // I want to make it obvious
   @Column(name = "visibility_status", nullable = false, updatable = true)
-  private VisibiltyStatus visibilityStatus;
+  private VisibilityStatus visibilityStatus;
   
   @Transient
   private BiddingStatus biddingStatus;
@@ -125,11 +125,11 @@ public class Project extends Persistent {
     this.finish = finish;
   }
   
-  public VisibiltyStatus getVisibilityStatus() {
+  public VisibilityStatus getVisibilityStatus() {
     return visibilityStatus;
   }
   
-  public void setVisibilityStatus(VisibiltyStatus visibilityStatus) {
+  public void setVisibilityStatus(VisibilityStatus visibilityStatus) {
     this.visibilityStatus = visibilityStatus;
   }
   

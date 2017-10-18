@@ -27,7 +27,7 @@ public class PersistenceListener implements ServletContextListener {
     
     final int MS_IN_DAY = 1000*60*60*24;
     final Date baseDate = new Date();
-    final Project.VisibiltyStatus[] visibiltyStatuses = Project.VisibiltyStatus.values();
+    final Project.VisibilityStatus[] visibilityStatuses = Project.VisibilityStatus.values();
     
     User bidder=null;
     for (int i = 0; i < 500; i++) {
@@ -44,7 +44,7 @@ public class PersistenceListener implements ServletContextListener {
       project.setOwner(user);
       project.setStart(new Date(baseDate.getTime() + (i-250)*MS_IN_DAY));
       project.setFinish(new Date(baseDate.getTime() + (i-200)*MS_IN_DAY));
-      project.setVisibilityStatus(visibiltyStatuses[i % visibiltyStatuses.length]);
+      project.setVisibilityStatus(visibilityStatuses[i % visibilityStatuses.length]);
   
       em.persist(project);
   

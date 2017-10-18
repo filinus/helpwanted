@@ -5,6 +5,7 @@ import us.filin.helpwanted.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
+import us.filin.helpwanted.model.ProjectDetailJson;
 import us.filin.helpwanted.model.ProjectJson;
 
 import java.util.List;

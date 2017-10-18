@@ -7,6 +7,7 @@ import us.filin.helpwanted.api.factories.MarketApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import us.filin.helpwanted.model.ProjectDetailJson;
 import us.filin.helpwanted.model.ProjectJson;
 
 import java.util.Map;
@@ -77,11 +78,11 @@ public class MarketApi  {
     @Path("/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Find project by ID", notes = "Returns a single project", response = ProjectJson.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Find project by ID", notes = "Returns a single project", response = ProjectDetailJson.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "api_key")
     }, tags={ "market", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectJson.class),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectDetailJson.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         

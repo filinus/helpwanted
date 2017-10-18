@@ -21,7 +21,7 @@ public class MarketApiServiceImpl extends MarketApiService {
         EntityManager em = PersistenceListener.createEntityManager();
         
         List<Project> projects = em.createQuery("SELECT p FROM Project p WHERE p.visibilityStatus = :visibility ORDER BY P.updated DESC, P.id", Project.class)
-          .setParameter("visibility", Project.VisibiltyStatus.VISIBLE)
+          .setParameter("visibility", Project.VisibilityStatus.VISIBLE)
           .setMaxResults(1000)
           .getResultList();
         List<ProjectJson> projectJsons = ProjectMapper.INSTANCE.toModels(projects);

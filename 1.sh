@@ -1,5 +1,5 @@
 java  -jar ./swagger-codegen-cli.jar generate \
-  -i ./"swagger (20).yaml" \
+  -i ./"swagger (21).yaml" \
   -c ./options.json \
   --group-id=us.filin.helpwanted \
   --artifact-id=project \
