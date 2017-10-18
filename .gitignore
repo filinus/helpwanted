@@ -522,3 +522,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/project.iml
