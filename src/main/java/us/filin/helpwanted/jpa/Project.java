@@ -1,23 +1,49 @@
 package us.filin.helpwanted.jpa;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Project implements Persistent {
+
+public class Project extends Persistent {
   
-  @Id @GeneratedValue
-  private Long id;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id")
+  private User owner;
+  
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id")
+  private Bid bid;
+  
+  private String title;
   
   private String description;
   
-  public Long getId() {
-    return id;
+  public User getOwner() {
+    return owner;
   }
   
-  public void setId(Long id) {
-    this.id = id;
+  public void setOwner(User owner) {
+    this.owner = owner;
+  }
+  
+  public Bid getBid() {
+    return bid;
+  }
+  
+  public void setBid(Bid bid) {
+    this.bid = bid;
+  }
+  
+  public String getTitle() {
+    return title;
+  }
+  
+  public void setTitle(String title) {
+    this.title = title;
   }
   
   public String getDescription() {
