@@ -6,17 +6,18 @@ import java.util.Date;
 @Entity
 @Table(name = "projects",
   indexes = {
-    @Index(name = "time_desc", columnList = "created DESC,id")
+    @Index(name = "time_desc", columnList = "created DESC, id"),
+    @Index(name = "visibility_status", columnList = "visbilityStatus")
   }
 )
 public class Project extends Persistent {
   
   @OneToOne(optional = false, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "owner_id", nullable=false, updatable=false)
+  @JoinColumn(name = "owner_id", nullable = false, updatable = false)
   private User owner;
   
   @OneToOne(optional = true, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "bid_id", nullable=true, updatable=true)
+  @JoinColumn(name = "bid_id", nullable = true, updatable = true)
   private Bid bid;
   
   private String title;
@@ -31,18 +32,50 @@ public class Project extends Persistent {
   @Column(name = "finish", nullable = false)
   private Date finish;
   
-  public enum ProjectStatus {
-    INACTIVE,  // publisher editing it
-    ACTIVE_NO_BIDS_YET,  // publisher made project public
-    ACTIVE_BID,  // project was active but did
-    PENDING, // we give up to minute to process last second bid
+  @PostUpdate
+  void postUpdate() {
+    updateBiddingStatus();
+  }
+  
+  @PostLoad
+  void postLoad() {
+    updateBiddingStatus();
+  }
+  
+  private void updateBiddingStatus() {
+    Date now = new Date();
+    if (now.before(start)) {
+      biddingStatus = BiddingStatus.WAITING_START;
+    } else if (now.before(finish)) {
+      biddingStatus = (bid == null) ? BiddingStatus.WAITING_BIDS : BiddingStatus.BIDDING;
+    } else if (now.before(new Date(finish.getTime()+60*1000))) {
+      biddingStatus = BiddingStatus.PENDING;
+    } else {
+      biddingStatus = (bid == null) ? BiddingStatus.NO_WINNER : BiddingStatus.WINNER;
+    }
+  }
+  
+  public enum VisibiltyStatus {
+    HIDDEN,
+    VISIBLE,
+    CLOSED_MODERATOR
+  }
+  
+  public enum BiddingStatus {
+    WAITING_START,
+    WAITING_BIDS,
+    BIDDING,
+    PENDING,
     WINNER,
-    CLOSED
+    NO_WINNER
   }
   
   @Enumerated(EnumType.STRING) // I want to make it obvious
-  @Column(nullable = false, updatable = true)
-  private ProjectStatus status;
+  @Column(name = "visibility_status", nullable = false, updatable = true)
+  private VisibiltyStatus visibilityStatus;
+  
+  @Transient
+  private BiddingStatus biddingStatus;
   
   public User getOwner() {
     return owner;
@@ -92,11 +125,15 @@ public class Project extends Persistent {
     this.finish = finish;
   }
   
-  public ProjectStatus getStatus() {
-    return status;
+  public VisibiltyStatus getVisibilityStatus() {
+    return visibilityStatus;
   }
   
-  public void setStatus(ProjectStatus status) {
-    this.status = status;
+  public void setVisibilityStatus(VisibiltyStatus visibilityStatus) {
+    this.visibilityStatus = visibilityStatus;
+  }
+  
+  public BiddingStatus getBiddingStatus() {
+    return biddingStatus;
   }
 }

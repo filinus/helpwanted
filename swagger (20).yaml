@@ -380,7 +380,6 @@ definitions:
       project_id:
         type: string
         format: guid
-        required: true
       bidder:
         type: string
         format: guid
@@ -398,7 +397,6 @@ definitions:
       pricePerUnit:
         type: number
         format: currency
-        required: true
       price:
         type: number
         format: currency
@@ -429,14 +427,16 @@ definitions:
           wrapped: true
         items:
           type: string
-      status:
+      biddingStatus:
         type: string
-        description: Project status
+        description: Project Bidding Status
         enum:
-          - pending
+          - waiting_start
+          - waiting_bids
           - bidding
-          - sold
-          - finished
+          - pending
+          - winner
+          - no_winner
     xml:
       name: Project
   ApiResponse:

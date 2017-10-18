@@ -42,20 +42,24 @@ public class ProjectJson  implements Serializable {
   private List<String> files = null;
 
   /**
-   * Project status
+   * Project Bidding Status
    */
-  public enum StatusEnum {
-    PENDING("pending"),
+  public enum BiddingStatusEnum {
+    WAITING_START("waiting_start"),
+    
+    WAITING_BIDS("waiting_bids"),
     
     BIDDING("bidding"),
     
-    SOLD("sold"),
+    PENDING("pending"),
     
-    FINISHED("finished");
+    WINNER("winner"),
+    
+    NO_WINNER("no_winner");
 
     private String value;
 
-    StatusEnum(String value) {
+    BiddingStatusEnum(String value) {
       this.value = value;
     }
 
@@ -66,8 +70,8 @@ public class ProjectJson  implements Serializable {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String text) {
-      for (StatusEnum b : StatusEnum.values()) {
+    public static BiddingStatusEnum fromValue(String text) {
+      for (BiddingStatusEnum b : BiddingStatusEnum.values()) {
         if (String.valueOf(b.value).equals(text)) {
           return b;
         }
@@ -76,8 +80,8 @@ public class ProjectJson  implements Serializable {
     }
   }
 
-  @JsonProperty("status")
-  private StatusEnum status = null;
+  @JsonProperty("biddingStatus")
+  private BiddingStatusEnum biddingStatus = null;
 
   public ProjectJson id(String id) {
     this.id = id;
@@ -163,23 +167,23 @@ public class ProjectJson  implements Serializable {
     this.files = files;
   }
 
-  public ProjectJson status(StatusEnum status) {
-    this.status = status;
+  public ProjectJson biddingStatus(BiddingStatusEnum biddingStatus) {
+    this.biddingStatus = biddingStatus;
     return this;
   }
 
   /**
-   * Project status
-   * @return status
+   * Project Bidding Status
+   * @return biddingStatus
    **/
-  @JsonProperty("status")
-  @ApiModelProperty(value = "Project status")
-  public StatusEnum getStatus() {
-    return status;
+  @JsonProperty("biddingStatus")
+  @ApiModelProperty(value = "Project Bidding Status")
+  public BiddingStatusEnum getBiddingStatus() {
+    return biddingStatus;
   }
 
-  public void setStatus(StatusEnum status) {
-    this.status = status;
+  public void setBiddingStatus(BiddingStatusEnum biddingStatus) {
+    this.biddingStatus = biddingStatus;
   }
 
 
@@ -196,12 +200,12 @@ public class ProjectJson  implements Serializable {
         Objects.equals(this.title, project.title) &&
         Objects.equals(this.description, project.description) &&
         Objects.equals(this.files, project.files) &&
-        Objects.equals(this.status, project.status);
+        Objects.equals(this.biddingStatus, project.biddingStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, files, status);
+    return Objects.hash(id, title, description, files, biddingStatus);
   }
 
 
@@ -214,7 +218,7 @@ public class ProjectJson  implements Serializable {
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    biddingStatus: ").append(toIndentedString(biddingStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }

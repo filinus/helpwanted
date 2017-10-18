@@ -17,7 +17,7 @@ public class Bid extends Persistent {
   
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "bidded", nullable = false)
-  private Date dateTime;
+  private Date bidded;
   
   @Column(nullable = false, updatable = false)
   private double amount;
@@ -44,12 +44,12 @@ public class Bid extends Persistent {
     this.bidder = bidder;
   }
   
-  public Date getDateTime() {
-    return dateTime;
+  public Date getBidded() {
+    return bidded;
   }
   
-  public void setDateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public void setBidded(Date dateTime) {
+    this.bidded = dateTime;
   }
   
   public double getAmount() {
