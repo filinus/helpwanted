@@ -28,6 +28,7 @@ public class PersistenceListener implements ServletContextListener {
     
     final int MS_IN_DAY = 1000*60*60*24;
     final Date baseDate = new Date();
+    final Project.ProjectStatus[] statuses = Project.ProjectStatus.values();
     
     for (int i = 0; i < 500; i++) {
       User user = new User();
@@ -42,6 +43,7 @@ public class PersistenceListener implements ServletContextListener {
       project.setOwner(user);
       project.setStart(new Date(baseDate.getTime() + (i-250)*MS_IN_DAY));
       project.setFinish(new Date(baseDate.getTime() + (i-200)*MS_IN_DAY));
+      project.setStatus(  statuses[i % statuses.length]);
       em.persist(project);
     }
     em.getTransaction().commit();

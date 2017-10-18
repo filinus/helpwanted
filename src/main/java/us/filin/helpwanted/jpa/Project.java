@@ -31,6 +31,19 @@ public class Project extends Persistent {
   @Column(name = "finish", nullable = false)
   private Date finish;
   
+  public enum ProjectStatus {
+    INACTIVE,  // publisher editing it
+    ACTIVE_NO_BIDS_YET,  // publisher made project public
+    ACTIVE_BID,  // project was active but did
+    PENDING, // we give up to minute to process last second bid
+    WINNER,
+    CLOSED
+  }
+  
+  @Enumerated(EnumType.STRING) // I want to make it obvious
+  @Column(nullable = false, updatable = true)
+  private ProjectStatus status;
+  
   public User getOwner() {
     return owner;
   }
@@ -77,5 +90,13 @@ public class Project extends Persistent {
   
   public void setFinish(Date finish) {
     this.finish = finish;
+  }
+  
+  public ProjectStatus getStatus() {
+    return status;
+  }
+  
+  public void setStatus(ProjectStatus status) {
+    this.status = status;
   }
 }
