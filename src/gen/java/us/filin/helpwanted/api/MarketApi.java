@@ -7,7 +7,7 @@ import us.filin.helpwanted.api.factories.MarketApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import us.filin.helpwanted.model.ProjectModel;
+import us.filin.helpwanted.model.ProjectJson;
 
 import java.util.Map;
 import java.util.List;
@@ -58,14 +58,14 @@ public class MarketApi  {
     @Path("/projects")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Finds Projects by criteria", notes = "Multiple status values can be provided with comma separated strings", response = ProjectModel.class, responseContainer = "List", authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Finds Projects by criteria", notes = "Multiple status values can be provided with comma separated strings", response = ProjectJson.class, responseContainer = "List", authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
     }, tags={ "market", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectModel.class, responseContainer = "List"),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectJson.class, responseContainer = "List"),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Void.class) })
     public Response findProjectsByStatus(@ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="active, published, finished") @QueryParam("status") List<String> status
@@ -77,11 +77,11 @@ public class MarketApi  {
     @Path("/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Find project by ID", notes = "Returns a single project", response = ProjectModel.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Find project by ID", notes = "Returns a single project", response = ProjectJson.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "api_key")
     }, tags={ "market", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectModel.class),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectJson.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         

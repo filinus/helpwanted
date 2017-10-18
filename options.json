@@ -1,0 +1,21 @@
+{
+"java8":true ,
+"dateLibrary": "java8",
+"useBeanValidation":true,
+"hideGenerationTimestamp":true,
+
+"useTags": false,
+
+"title": "HelpWanted, the job market",
+
+"groupId": "us.filin.helpwanted",
+"artifactId": "project",
+"artifactDescription": "HelpWanted, the job market for self-employed",
+"invokerPackage": "us.filin.helpwanted",
+"apiPackage": "us.filin.helpwanted.api",
+"modelPackage": "us.filin.helpwanted.model",
+"serializableModel": true
+
+
+
+}

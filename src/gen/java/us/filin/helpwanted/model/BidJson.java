@@ -24,10 +24,10 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * BidModel
+ * BidJson
  */
 
-public class BidModel  implements Serializable {
+public class BidJson  implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -80,7 +80,7 @@ public class BidModel  implements Serializable {
   @JsonProperty("price")
   private BigDecimal price = null;
 
-  public BidModel id(String id) {
+  public BidJson id(String id) {
     this.id = id;
     return this;
   }
@@ -99,7 +99,7 @@ public class BidModel  implements Serializable {
     this.id = id;
   }
 
-  public BidModel projectId(String projectId) {
+  public BidJson projectId(String projectId) {
     this.projectId = projectId;
     return this;
   }
@@ -128,7 +128,7 @@ public class BidModel  implements Serializable {
     return bidder;
   }
 
-  public BidModel quantity(Integer quantity) {
+  public BidJson quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -147,7 +147,7 @@ public class BidModel  implements Serializable {
     this.quantity = quantity;
   }
 
-  public BidModel unit(UnitEnum unit) {
+  public BidJson unit(UnitEnum unit) {
     this.unit = unit;
     return this;
   }
@@ -166,7 +166,7 @@ public class BidModel  implements Serializable {
     this.unit = unit;
   }
 
-  public BidModel pricePerUnit(BigDecimal pricePerUnit) {
+  public BidJson pricePerUnit(BigDecimal pricePerUnit) {
     this.pricePerUnit = pricePerUnit;
     return this;
   }
@@ -185,7 +185,7 @@ public class BidModel  implements Serializable {
     this.pricePerUnit = pricePerUnit;
   }
 
-  public BidModel price(BigDecimal price) {
+  public BidJson price(BigDecimal price) {
     this.price = price;
     return this;
   }
@@ -213,7 +213,7 @@ public class BidModel  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BidModel bid = (BidModel) o;
+    BidJson bid = (BidJson) o;
     return Objects.equals(this.id, bid.id) &&
         Objects.equals(this.projectId, bid.projectId) &&
         Objects.equals(this.bidder, bid.bidder) &&
@@ -232,7 +232,7 @@ public class BidModel  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BidModel {\n");
+    sb.append("class BidJson {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    projectId: ").append(toIndentedString(projectId)).append("\n");

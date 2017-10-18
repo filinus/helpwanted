@@ -22,30 +22,74 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * ParticipatedProjectModel
+ * ApiResponseJson
  */
 
-public class ParticipatedProjectModel  implements Serializable {
-  @JsonProperty("id")
-  private Long id = null;
+public class ApiResponseJson  implements Serializable {
+  @JsonProperty("code")
+  private Integer code = null;
 
-  public ParticipatedProjectModel id(Long id) {
-    this.id = id;
+  @JsonProperty("type")
+  private String type = null;
+
+  @JsonProperty("message")
+  private String message = null;
+
+  public ApiResponseJson code(Integer code) {
+    this.code = code;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get code
+   * @return code
    **/
-  @JsonProperty("id")
+  @JsonProperty("code")
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Integer getCode() {
+    return code;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setCode(Integer code) {
+    this.code = code;
+  }
+
+  public ApiResponseJson type(String type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+   **/
+  @JsonProperty("type")
+  @ApiModelProperty(value = "")
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public ApiResponseJson message(String message) {
+    this.message = message;
+    return this;
+  }
+
+  /**
+   * Get message
+   * @return message
+   **/
+  @JsonProperty("message")
+  @ApiModelProperty(value = "")
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
   }
 
 
@@ -57,22 +101,26 @@ public class ParticipatedProjectModel  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ParticipatedProjectModel participatedProject = (ParticipatedProjectModel) o;
-    return Objects.equals(this.id, participatedProject.id);
+    ApiResponseJson _apiResponse = (ApiResponseJson) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(code, type, message);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ParticipatedProjectModel {\n");
+    sb.append("class ApiResponseJson {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }

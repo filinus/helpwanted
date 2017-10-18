@@ -6,6 +6,6 @@ java  -jar ./swagger-codegen-cli.jar generate \
   --library jersey2 \
   -l jaxrs \
   -o ./gen3 \
-  --model-name-suffix=Model 
+  --model-name-suffix=Jsons 
 
   

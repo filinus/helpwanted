@@ -25,10 +25,10 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * ProjectModel
+ * ProjectJson
  */
 
-public class ProjectModel  implements Serializable {
+public class ProjectJson  implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -79,7 +79,7 @@ public class ProjectModel  implements Serializable {
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  public ProjectModel id(String id) {
+  public ProjectJson id(String id) {
     this.id = id;
     return this;
   }
@@ -98,7 +98,7 @@ public class ProjectModel  implements Serializable {
     this.id = id;
   }
 
-  public ProjectModel title(String title) {
+  public ProjectJson title(String title) {
     this.title = title;
     return this;
   }
@@ -117,7 +117,7 @@ public class ProjectModel  implements Serializable {
     this.title = title;
   }
 
-  public ProjectModel description(String description) {
+  public ProjectJson description(String description) {
     this.description = description;
     return this;
   }
@@ -136,12 +136,12 @@ public class ProjectModel  implements Serializable {
     this.description = description;
   }
 
-  public ProjectModel files(List<String> files) {
+  public ProjectJson files(List<String> files) {
     this.files = files;
     return this;
   }
 
-  public ProjectModel addFilesItem(String filesItem) {
+  public ProjectJson addFilesItem(String filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<String>();
     }
@@ -163,7 +163,7 @@ public class ProjectModel  implements Serializable {
     this.files = files;
   }
 
-  public ProjectModel status(StatusEnum status) {
+  public ProjectJson status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -191,7 +191,7 @@ public class ProjectModel  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ProjectModel project = (ProjectModel) o;
+    ProjectJson project = (ProjectJson) o;
     return Objects.equals(this.id, project.id) &&
         Objects.equals(this.title, project.title) &&
         Objects.equals(this.description, project.description) &&
@@ -208,7 +208,7 @@ public class ProjectModel  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ProjectModel {\n");
+    sb.append("class ProjectJson {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");

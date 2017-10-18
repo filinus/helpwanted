@@ -23,9 +23,9 @@ public class MarketApiServiceImpl extends MarketApiService {
         List<Project> projects = em.createQuery("SELECT p FROM Project p ORDER BY P.updated DESC, P.id", Project.class)
           .setMaxResults(100)
           .getResultList();
-        List<ProjectModel> projectModels = ProjectMapper.INSTANCE.toModels(projects);
+        List<ProjectJson> projectJsons = ProjectMapper.INSTANCE.toModels(projects);
 
-        return Response.ok().entity(projectModels).build();
+        return Response.ok().entity(projectJsons).build();
     }
     @Override
     public Response getProjectById(Long projectId, SecurityContext securityContext) throws NotFoundException {
