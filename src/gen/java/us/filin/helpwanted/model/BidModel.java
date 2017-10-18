@@ -29,7 +29,13 @@ import javax.validation.constraints.*;
 
 public class BidModel  implements Serializable {
   @JsonProperty("id")
-  private Long id = null;
+  private String id = null;
+
+  @JsonProperty("project_id")
+  private String projectId = null;
+
+  @JsonProperty("bidder")
+  private String bidder = null;
 
   @JsonProperty("quantity")
   private Integer quantity = 1;
@@ -71,7 +77,10 @@ public class BidModel  implements Serializable {
   @JsonProperty("pricePerUnit")
   private BigDecimal pricePerUnit = null;
 
-  public BidModel id(Long id) {
+  @JsonProperty("price")
+  private BigDecimal price = null;
+
+  public BidModel id(String id) {
     this.id = id;
     return this;
   }
@@ -82,12 +91,41 @@ public class BidModel  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
+  }
+
+  public BidModel projectId(String projectId) {
+    this.projectId = projectId;
+    return this;
+  }
+
+  /**
+   * Get projectId
+   * @return projectId
+   **/
+  @JsonProperty("project_id")
+  @ApiModelProperty(value = "")
+  public String getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(String projectId) {
+    this.projectId = projectId;
+  }
+
+  /**
+   * Get bidder
+   * @return bidder
+   **/
+  @JsonProperty("bidder")
+  @ApiModelProperty(value = "")
+  public String getBidder() {
+    return bidder;
   }
 
   public BidModel quantity(Integer quantity) {
@@ -147,6 +185,25 @@ public class BidModel  implements Serializable {
     this.pricePerUnit = pricePerUnit;
   }
 
+  public BidModel price(BigDecimal price) {
+    this.price = price;
+    return this;
+  }
+
+  /**
+   * Get price
+   * @return price
+   **/
+  @JsonProperty("price")
+  @ApiModelProperty(value = "")
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -158,14 +215,17 @@ public class BidModel  implements Serializable {
     }
     BidModel bid = (BidModel) o;
     return Objects.equals(this.id, bid.id) &&
+        Objects.equals(this.projectId, bid.projectId) &&
+        Objects.equals(this.bidder, bid.bidder) &&
         Objects.equals(this.quantity, bid.quantity) &&
         Objects.equals(this.unit, bid.unit) &&
-        Objects.equals(this.pricePerUnit, bid.pricePerUnit);
+        Objects.equals(this.pricePerUnit, bid.pricePerUnit) &&
+        Objects.equals(this.price, bid.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, quantity, unit, pricePerUnit);
+    return Objects.hash(id, projectId, bidder, quantity, unit, pricePerUnit, price);
   }
 
 
@@ -175,9 +235,12 @@ public class BidModel  implements Serializable {
     sb.append("class BidModel {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    projectId: ").append(toIndentedString(projectId)).append("\n");
+    sb.append("    bidder: ").append(toIndentedString(bidder)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    pricePerUnit: ").append(toIndentedString(pricePerUnit)).append("\n");
+    sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("}");
     return sb.toString();
   }

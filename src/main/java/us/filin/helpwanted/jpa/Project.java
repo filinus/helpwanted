@@ -1,26 +1,35 @@
 package us.filin.helpwanted.jpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-
+@Table(name = "projects",
+  indexes = {
+    @Index(name = "time_desc", columnList = "created DESC,id")
+  }
+)
 public class Project extends Persistent {
   
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id")
+  @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "owner_id", nullable=false, updatable=false)
   private User owner;
   
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id")
+  @OneToOne(optional = true, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "bid_id", nullable=true, updatable=true)
   private Bid bid;
   
   private String title;
   
   private String description;
+  
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "start", nullable = false)
+  private Date start;
+  
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "finish", nullable = false)
+  private Date finish;
   
   public User getOwner() {
     return owner;
@@ -52,5 +61,21 @@ public class Project extends Persistent {
   
   public void setDescription(String description) {
     this.description = description;
+  }
+  
+  public Date getStart() {
+    return start;
+  }
+  
+  public void setStart(Date start) {
+    this.start = start;
+  }
+  
+  public Date getFinish() {
+    return finish;
+  }
+  
+  public void setFinish(Date finish) {
+    this.finish = finish;
   }
 }

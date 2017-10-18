@@ -1,36 +1,32 @@
 package us.filin.helpwanted.jpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-
+@Table(name = "bids")
 public class Bid extends Persistent {
   
-  @ManyToOne
+  @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "project_id", nullable=false, updatable=false)
   private Project project;
   
-  @NotNull
-  private double amount;
-  
-  @NotNull
-  private double pricePerUnit;
-  
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id")
+  @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "bidder_id", nullable=false, updatable=false)
   private User bidder;
   
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "bidded", nullable = false)
   private Date dateTime;
+  
+  @Column(nullable = false, updatable = false)
+  private double amount;
+  
+  @Column(nullable = false, updatable = false)
+  private double pricePerUnit;
+  
+  @Column(nullable = false, updatable = false)
+  private double price;
   
   public Project getProject() {
     return project;
@@ -38,6 +34,22 @@ public class Bid extends Persistent {
   
   public void setProject(Project project) {
     this.project = project;
+  }
+  
+  public User getBidder() {
+    return bidder;
+  }
+  
+  public void setBidder(User bidder) {
+    this.bidder = bidder;
+  }
+  
+  public Date getDateTime() {
+    return dateTime;
+  }
+  
+  public void setDateTime(Date dateTime) {
+    this.dateTime = dateTime;
   }
   
   public double getAmount() {
@@ -56,15 +68,11 @@ public class Bid extends Persistent {
     this.pricePerUnit = pricePerUnit;
   }
   
-  public User getBidder() {
-    return bidder;
+  public double getPrice() {
+    return price;
   }
   
-  public Date getDateTime() {
-    return dateTime;
-  }
-  
-  public void setDateTime(Date dateTime) {
-    this.dateTime = dateTime;
+  public void setWholePrice(double wholePrice) {
+    this.price = wholePrice;
   }
 }

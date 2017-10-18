@@ -8,11 +8,12 @@
             <property name="javax.persistence.provider" value="org.eclipse.persistence.jpa.PersistenceProvider" />
 
             <!-- Common properties -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:myDb;create=true"/>
+            <!-- property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:myDb;create=true"/ -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/myDb"/>
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value="sa"/>
-            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-
+            <!-- property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/ -->
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
 
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
 

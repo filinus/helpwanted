@@ -20,7 +20,7 @@ public class MarketApiServiceImpl extends MarketApiService {
     public Response findProjectsByStatus( @NotNull List<String> status, SecurityContext securityContext) throws NotFoundException {
         EntityManager em = PersistenceListener.createEntityManager();
         
-        List<Project> projects = em.createQuery("SELECT p FROM Project p", Project.class)
+        List<Project> projects = em.createQuery("SELECT p FROM Project p ORDER BY P.updated DESC, P.id", Project.class)
           .setMaxResults(100)
           .getResultList();
         List<ProjectModel> projectModels = ProjectMapper.INSTANCE.toModels(projects);

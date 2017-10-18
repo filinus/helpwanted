@@ -30,10 +30,10 @@ import javax.validation.constraints.*;
 
 public class ProjectModel  implements Serializable {
   @JsonProperty("id")
-  private Long id = null;
+  private String id = null;
 
-  @JsonProperty("name")
-  private String name = null;
+  @JsonProperty("title")
+  private String title = null;
 
   @JsonProperty("description")
   private String description = null;
@@ -79,7 +79,7 @@ public class ProjectModel  implements Serializable {
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  public ProjectModel id(Long id) {
+  public ProjectModel id(String id) {
     this.id = id;
     return this;
   }
@@ -90,31 +90,31 @@ public class ProjectModel  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public ProjectModel name(String name) {
-    this.name = name;
+  public ProjectModel title(String title) {
+    this.title = title;
     return this;
   }
 
   /**
-   * Get name
-   * @return name
+   * Get title
+   * @return title
    **/
-  @JsonProperty("name")
-  @ApiModelProperty(example = "doggie", value = "")
-  public String getName() {
-    return name;
+  @JsonProperty("title")
+  @ApiModelProperty(example = "translate text from English to Spanish", value = "")
+  public String getTitle() {
+    return title;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
   public ProjectModel description(String description) {
@@ -193,7 +193,7 @@ public class ProjectModel  implements Serializable {
     }
     ProjectModel project = (ProjectModel) o;
     return Objects.equals(this.id, project.id) &&
-        Objects.equals(this.name, project.name) &&
+        Objects.equals(this.title, project.title) &&
         Objects.equals(this.description, project.description) &&
         Objects.equals(this.files, project.files) &&
         Objects.equals(this.status, project.status);
@@ -201,7 +201,7 @@ public class ProjectModel  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, files, status);
+    return Objects.hash(id, title, description, files, status);
   }
 
 
@@ -211,7 +211,7 @@ public class ProjectModel  implements Serializable {
     sb.append("class ProjectModel {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
