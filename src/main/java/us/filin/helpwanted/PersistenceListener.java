@@ -54,9 +54,9 @@ public class PersistenceListener implements ServletContextListener {
         Bid bid = new Bid();
         bid.setBidded(new Date((project.getStart().getTime()+project.getFinish().getTime())%2));
         bid.setBidder(bidder);
-        bid.setAmount(1+i%10);
+        bid.setQuantity(1+i%10);
         bid.setPricePerUnit(20-i%10);
-        bid.setWholePrice(bid.getPrice()*bid.getPricePerUnit());
+        bid.setPrice(bid.getPrice()*bid.getPricePerUnit());
         bid.setProject(project);
         em.persist(bid);
         project.setBid(bid);

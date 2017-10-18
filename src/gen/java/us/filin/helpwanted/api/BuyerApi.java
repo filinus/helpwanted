@@ -7,6 +7,7 @@ import us.filin.helpwanted.api.factories.BuyerApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import us.filin.helpwanted.model.BidJson;
 import us.filin.helpwanted.model.ProjectJson;
 
 import java.util.Map;
@@ -55,7 +56,7 @@ public class BuyerApi  {
    }
 
     @PUT
-    @Path("/{username}/projects/{orderId}")
+    @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Bid on project", notes = "", response = ProjectJson.class, tags={ "buyer", })
@@ -66,13 +67,14 @@ public class BuyerApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found", response = Void.class) })
     public Response bidBuyerProject(@ApiParam(value = "The buyer's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "an existing project ID",required=true) @PathParam("orderId") String orderId
+,@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") String projectId
+,@ApiParam(value = "Bid on project" ,required=true) BidJson body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.bidBuyerProject(username,orderId,securityContext);
+        return delegate.bidBuyerProject(username,projectId,body,securityContext);
     }
     @POST
-    @Path("/{username}/projects/{orderId}")
+    @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Bookmark project", notes = "", response = ProjectJson.class, tags={ "buyer", })
@@ -83,13 +85,13 @@ public class BuyerApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found", response = Void.class) })
     public Response bookmarkBuyerProject(@ApiParam(value = "The buyer's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "an existing project ID",required=true) @PathParam("orderId") String orderId
+,@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") String projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.bookmarkBuyerProject(username,orderId,securityContext);
+        return delegate.bookmarkBuyerProject(username,projectId,securityContext);
     }
     @DELETE
-    @Path("/{username}/projects/{orderId}")
+    @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Delete not-active project by ID", notes = "Buyer may delete project without his bid, delivered", response = Void.class, tags={ "buyer", })
@@ -98,13 +100,13 @@ public class BuyerApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
     public Response deleteOrder(@ApiParam(value = "The buyer's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "an existing project ID",required=true) @PathParam("orderId") String orderId
+,@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") String projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.deleteOrder(username,orderId,securityContext);
+        return delegate.deleteOrder(username,projectId,securityContext);
     }
     @GET
-    @Path("/{username}/projects/{orderId}")
+    @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Get buyers bid status in specified project", notes = "", response = ProjectJson.class, tags={ "buyer", })
@@ -115,9 +117,9 @@ public class BuyerApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
     public Response getBuyerProject(@ApiParam(value = "The buyer's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "an existing project ID",required=true) @PathParam("orderId") String orderId
+,@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") String projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getBuyerProject(username,orderId,securityContext);
+        return delegate.getBuyerProject(username,projectId,securityContext);
     }
 }

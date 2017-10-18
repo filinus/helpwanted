@@ -86,7 +86,7 @@ public class MarketApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class) })
-    public Response getProjectById(@ApiParam(value = "ID of project to return",required=true) @PathParam("projectId") Long projectId
+    public Response getProjectById(@ApiParam(value = "ID of project to return",required=true) @PathParam("projectId") String projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getProjectById(projectId,securityContext);

@@ -20,9 +20,9 @@ import javax.validation.constraints.*;
 
 public abstract class SellerApiService {
     public abstract Response addSellerProject(String username,ProjectJson body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response deleteProjectImage(String username,Long projectId,String imageId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response deleteProjectImage(String username,String projectId,String imageId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
     public abstract Response deleteSellerProject(String username,String projectId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response getSellerProjects(String username,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updateSellerProject(String username,String projectId,ProjectJson body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response uploadFile(String username,Long projectId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response uploadFile(String username,String projectId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
 }

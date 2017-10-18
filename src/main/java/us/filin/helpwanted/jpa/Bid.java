@@ -20,7 +20,7 @@ public class Bid extends Persistent {
   private Date bidded;
   
   @Column(nullable = false, updatable = false)
-  private double amount;
+  private double quantity;
   
   @Column(nullable = false, updatable = false)
   private double pricePerUnit;
@@ -52,12 +52,12 @@ public class Bid extends Persistent {
     this.bidded = dateTime;
   }
   
-  public double getAmount() {
-    return amount;
+  public double getQuantity() {
+    return quantity;
   }
   
-  public void setAmount(double amount) {
-    this.amount = amount;
+  public void setQuantity(double amount) {
+    this.quantity = amount;
   }
   
   public double getPricePerUnit() {
@@ -72,7 +72,7 @@ public class Bid extends Persistent {
     return price;
   }
   
-  public void setWholePrice(double wholePrice) {
-    this.price = wholePrice;
+  public void setPrice(double price) {
+    this.price = price;
   }
 }

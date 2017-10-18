@@ -31,8 +31,8 @@ public class BidJson  implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("project_id")
-  private String projectId = null;
+  @JsonProperty("project")
+  private String project = null;
 
   @JsonProperty("bidder")
   private String bidder = null;
@@ -99,23 +99,23 @@ public class BidJson  implements Serializable {
     this.id = id;
   }
 
-  public BidJson projectId(String projectId) {
-    this.projectId = projectId;
+  public BidJson project(String project) {
+    this.project = project;
     return this;
   }
 
   /**
-   * Get projectId
-   * @return projectId
+   * Get project
+   * @return project
    **/
-  @JsonProperty("project_id")
+  @JsonProperty("project")
   @ApiModelProperty(value = "")
-  public String getProjectId() {
-    return projectId;
+  public String getProject() {
+    return project;
   }
 
-  public void setProjectId(String projectId) {
-    this.projectId = projectId;
+  public void setProject(String project) {
+    this.project = project;
   }
 
   /**
@@ -215,7 +215,7 @@ public class BidJson  implements Serializable {
     }
     BidJson bid = (BidJson) o;
     return Objects.equals(this.id, bid.id) &&
-        Objects.equals(this.projectId, bid.projectId) &&
+        Objects.equals(this.project, bid.project) &&
         Objects.equals(this.bidder, bid.bidder) &&
         Objects.equals(this.quantity, bid.quantity) &&
         Objects.equals(this.unit, bid.unit) &&
@@ -225,7 +225,7 @@ public class BidJson  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, projectId, bidder, quantity, unit, pricePerUnit, price);
+    return Objects.hash(id, project, bidder, quantity, unit, pricePerUnit, price);
   }
 
 
@@ -235,7 +235,7 @@ public class BidJson  implements Serializable {
     sb.append("class BidJson {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    projectId: ").append(toIndentedString(projectId)).append("\n");
+    sb.append("    project: ").append(toIndentedString(project)).append("\n");
     sb.append("    bidder: ").append(toIndentedString(bidder)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");

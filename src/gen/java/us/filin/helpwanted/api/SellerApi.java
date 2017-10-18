@@ -87,7 +87,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponseJson.class) })
     public Response deleteProjectImage(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of project containg image",required=true) @PathParam("projectId") Long projectId
+,@ApiParam(value = "ID of project containg image",required=true) @PathParam("projectId") String projectId
 ,@ApiParam(value = "image ID",required=true) @PathParam("imageId") String imageId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
@@ -170,7 +170,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponseJson.class) })
     public Response uploadFile(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of pet to update",required=true) @PathParam("projectId") Long projectId
+,@ApiParam(value = "ID of pet to update",required=true) @PathParam("projectId") String projectId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
             @FormDataParam("file") InputStream fileInputStream,
