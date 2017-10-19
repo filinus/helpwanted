@@ -4,11 +4,9 @@ import us.filin.helpwanted.PersistenceListener;
 import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.jpa.Project;
 import us.filin.helpwanted.mapping.ProjectDetailMapper;
-import us.filin.helpwanted.model.*;
+import us.filin.helpwanted.pojo.*;
 
-import us.filin.helpwanted.model.ApiResponseJson;
-import java.io.File;
-import us.filin.helpwanted.model.ProjectJson;
+import us.filin.helpwanted.pojo.ProjectPOJO;
 
 import java.util.List;
 import us.filin.helpwanted.api.NotFoundException;
@@ -20,13 +18,12 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import javax.persistence.EntityManager;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import javax.validation.constraints.*;
 
 public class SellerApiServiceImpl extends SellerApiService {
     EntityManager em = PersistenceListener.createEntityManager();
     
     @Override
-    public Response addSellerProject(String username, ProjectJson body, SecurityContext securityContext) throws NotFoundException {
+    public Response addSellerProject(String username, ProjectPOJO body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -58,12 +55,12 @@ public class SellerApiServiceImpl extends SellerApiService {
           .setParameter("username", username)
           .setMaxResults(1000)
           .getResultList();
-        List<ProjectDetailJson> projectJsons = ProjectDetailMapper.INSTANCE.toModels(projects);
+        List<ProjectDetailPOJO> projectJsons = ProjectDetailMapper.INSTANCE.toPOJOs(projects);
     
         return Response.ok().entity(projectJsons).build();
     }
     @Override
-    public Response updateSellerProject(String username, String projectId, ProjectJson body, SecurityContext securityContext) throws NotFoundException {
+    public Response updateSellerProject(String username, String projectId, ProjectPOJO body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

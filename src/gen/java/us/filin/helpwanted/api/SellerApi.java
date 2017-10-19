@@ -1,19 +1,11 @@
 package us.filin.helpwanted.api;
 
-import us.filin.helpwanted.model.*;
-import us.filin.helpwanted.api.SellerApiService;
 import us.filin.helpwanted.api.factories.SellerApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
-import io.swagger.jaxrs.*;
 
-import us.filin.helpwanted.model.ApiResponseJson;
-import java.io.File;
-import us.filin.helpwanted.model.ProjectJson;
-
-import java.util.Map;
-import java.util.List;
-import us.filin.helpwanted.api.NotFoundException;
+import us.filin.helpwanted.pojo.ApiResponsePOJO;
+import us.filin.helpwanted.pojo.ProjectPOJO;
 
 import java.io.InputStream;
 
@@ -25,7 +17,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
-import javax.validation.constraints.*;
 
 @Path("/seller")
 @Consumes({ "application/json" })
@@ -69,7 +60,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response addSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "Project description object that needs to be added" ,required=true) ProjectJson body
+,@ApiParam(value = "Project description object that needs to be added" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addSellerProject(username,body,securityContext);
@@ -78,14 +69,14 @@ public class SellerApi  {
     @Path("/{username}/projects/{projectId}/images/{imageId}")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "delete an image", notes = "", response = ApiResponseJson.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "delete an image", notes = "", response = ApiResponsePOJO.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
     }, tags={ "seller", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponseJson.class) })
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
     public Response deleteProjectImage(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
 ,@ApiParam(value = "ID of project containg image",required=true) @PathParam("projectId") String projectId
 ,@ApiParam(value = "image ID",required=true) @PathParam("imageId") String imageId
@@ -152,7 +143,7 @@ public class SellerApi  {
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     public Response updateSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
 ,@ApiParam(value = "A seller's existing project ",required=true) @PathParam("projectId") String projectId
-,@ApiParam(value = "Project object that needs to be added to the store" ,required=true) ProjectJson body
+,@ApiParam(value = "Project object that needs to be added to the store" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updateSellerProject(username,projectId,body,securityContext);
@@ -161,14 +152,14 @@ public class SellerApi  {
     @Path("/{username}/projects/{projectId}/images")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ApiResponseJson.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ApiResponsePOJO.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
     }, tags={ "seller", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponseJson.class) })
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
     public Response uploadFile(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
 ,@ApiParam(value = "ID of pet to update",required=true) @PathParam("projectId") String projectId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata

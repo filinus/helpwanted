@@ -11,23 +11,21 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.io.Serializable;
-import javax.validation.constraints.*;
 
 /**
  * BidJson
  */
 
-public class BidJson  implements Serializable {
+public class BidPOJO implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -80,7 +78,7 @@ public class BidJson  implements Serializable {
   @JsonProperty("price")
   private BigDecimal price = null;
 
-  public BidJson id(String id) {
+  public BidPOJO id(String id) {
     this.id = id;
     return this;
   }
@@ -99,7 +97,7 @@ public class BidJson  implements Serializable {
     this.id = id;
   }
 
-  public BidJson project(String project) {
+  public BidPOJO project(String project) {
     this.project = project;
     return this;
   }
@@ -128,7 +126,7 @@ public class BidJson  implements Serializable {
     return bidder;
   }
 
-  public BidJson quantity(Integer quantity) {
+  public BidPOJO quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -147,7 +145,7 @@ public class BidJson  implements Serializable {
     this.quantity = quantity;
   }
 
-  public BidJson unit(UnitEnum unit) {
+  public BidPOJO unit(UnitEnum unit) {
     this.unit = unit;
     return this;
   }
@@ -166,7 +164,7 @@ public class BidJson  implements Serializable {
     this.unit = unit;
   }
 
-  public BidJson pricePerUnit(BigDecimal pricePerUnit) {
+  public BidPOJO pricePerUnit(BigDecimal pricePerUnit) {
     this.pricePerUnit = pricePerUnit;
     return this;
   }
@@ -185,7 +183,7 @@ public class BidJson  implements Serializable {
     this.pricePerUnit = pricePerUnit;
   }
 
-  public BidJson price(BigDecimal price) {
+  public BidPOJO price(BigDecimal price) {
     this.price = price;
     return this;
   }
@@ -213,7 +211,7 @@ public class BidJson  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BidJson bid = (BidJson) o;
+    BidPOJO bid = (BidPOJO) o;
     return Objects.equals(this.id, bid.id) &&
         Objects.equals(this.project, bid.project) &&
         Objects.equals(this.bidder, bid.bidder) &&

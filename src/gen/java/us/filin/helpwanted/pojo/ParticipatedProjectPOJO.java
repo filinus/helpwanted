@@ -11,25 +11,22 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import javax.validation.constraints.*;
 
 /**
  * ParticipatedProjectJson
  */
 
-public class ParticipatedProjectJson  implements Serializable {
+public class ParticipatedProjectPOJO implements Serializable {
   @JsonProperty("id")
   private Long id = null;
 
-  public ParticipatedProjectJson id(Long id) {
+  public ParticipatedProjectPOJO id(Long id) {
     this.id = id;
     return this;
   }
@@ -57,7 +54,7 @@ public class ParticipatedProjectJson  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ParticipatedProjectJson participatedProject = (ParticipatedProjectJson) o;
+    ParticipatedProjectPOJO participatedProject = (ParticipatedProjectPOJO) o;
     return Objects.equals(this.id, participatedProject.id);
   }
 

@@ -5,18 +5,18 @@ import us.filin.helpwanted.jpa.Persistent;
 
 import java.util.List;
 
-interface BasicMapper<Persitent extends Persistent, JsonModel> {
+interface BasicMapper<Persitent extends Persistent, Pojo> {
 
   @Mappings({})
-  JsonModel toModel(Persitent persitent);
+  Pojo toPOJO(Persitent persitent);
 
   @Mappings({})
-  Persitent toPeristent(JsonModel jsonModel);
+  Persitent toPeristent(Pojo pojo);
 
   @Mappings({})
-  List<JsonModel> toModels(List<Persitent> persitentEntities);
+  List<Pojo> toPOJOs(List<Persitent> persitentEntities);
 
   @Mappings({})
-  List<Persitent> toPersinents(List<JsonModel> jsonModels);
+  List<Persitent> toPersistents(List<Pojo> pojos);
 
 }

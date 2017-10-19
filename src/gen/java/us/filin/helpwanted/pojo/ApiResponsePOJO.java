@@ -11,21 +11,18 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import javax.validation.constraints.*;
 
 /**
  * ApiResponseJson
  */
 
-public class ApiResponseJson  implements Serializable {
+public class ApiResponsePOJO implements Serializable {
   @JsonProperty("code")
   private Integer code = null;
 
@@ -35,7 +32,7 @@ public class ApiResponseJson  implements Serializable {
   @JsonProperty("message")
   private String message = null;
 
-  public ApiResponseJson code(Integer code) {
+  public ApiResponsePOJO code(Integer code) {
     this.code = code;
     return this;
   }
@@ -54,7 +51,7 @@ public class ApiResponseJson  implements Serializable {
     this.code = code;
   }
 
-  public ApiResponseJson type(String type) {
+  public ApiResponsePOJO type(String type) {
     this.type = type;
     return this;
   }
@@ -73,7 +70,7 @@ public class ApiResponseJson  implements Serializable {
     this.type = type;
   }
 
-  public ApiResponseJson message(String message) {
+  public ApiResponsePOJO message(String message) {
     this.message = message;
     return this;
   }
@@ -101,7 +98,7 @@ public class ApiResponseJson  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiResponseJson _apiResponse = (ApiResponseJson) o;
+    ApiResponsePOJO _apiResponse = (ApiResponsePOJO) o;
     return Objects.equals(this.code, _apiResponse.code) &&
         Objects.equals(this.type, _apiResponse.type) &&
         Objects.equals(this.message, _apiResponse.message);

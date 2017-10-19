@@ -11,21 +11,18 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import javax.validation.constraints.*;
 
 /**
  * ProjectJson
  */
 
-public class ProjectJson  implements Serializable {
+public class ProjectPOJO implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -35,7 +32,7 @@ public class ProjectJson  implements Serializable {
   @JsonProperty("description")
   private String description = null;
 
-  public ProjectJson id(String id) {
+  public ProjectPOJO id(String id) {
     this.id = id;
     return this;
   }
@@ -54,7 +51,7 @@ public class ProjectJson  implements Serializable {
     this.id = id;
   }
 
-  public ProjectJson title(String title) {
+  public ProjectPOJO title(String title) {
     this.title = title;
     return this;
   }
@@ -73,7 +70,7 @@ public class ProjectJson  implements Serializable {
     this.title = title;
   }
 
-  public ProjectJson description(String description) {
+  public ProjectPOJO description(String description) {
     this.description = description;
     return this;
   }
@@ -101,7 +98,7 @@ public class ProjectJson  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ProjectJson project = (ProjectJson) o;
+    ProjectPOJO project = (ProjectPOJO) o;
     return Objects.equals(this.id, project.id) &&
         Objects.equals(this.title, project.title) &&
         Objects.equals(this.description, project.description);

@@ -11,24 +11,22 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
-import javax.validation.constraints.*;
 
 /**
  * ProjectDetailJson
  */
 
-public class ProjectDetailJson  implements Serializable {
+public class ProjectDetailPOJO implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -83,7 +81,7 @@ public class ProjectDetailJson  implements Serializable {
   @JsonProperty("biddingStatus")
   private BiddingStatusEnum biddingStatus = null;
 
-  public ProjectDetailJson id(String id) {
+  public ProjectDetailPOJO id(String id) {
     this.id = id;
     return this;
   }
@@ -102,7 +100,7 @@ public class ProjectDetailJson  implements Serializable {
     this.id = id;
   }
 
-  public ProjectDetailJson title(String title) {
+  public ProjectDetailPOJO title(String title) {
     this.title = title;
     return this;
   }
@@ -121,7 +119,7 @@ public class ProjectDetailJson  implements Serializable {
     this.title = title;
   }
 
-  public ProjectDetailJson description(String description) {
+  public ProjectDetailPOJO description(String description) {
     this.description = description;
     return this;
   }
@@ -140,12 +138,12 @@ public class ProjectDetailJson  implements Serializable {
     this.description = description;
   }
 
-  public ProjectDetailJson files(List<String> files) {
+  public ProjectDetailPOJO files(List<String> files) {
     this.files = files;
     return this;
   }
 
-  public ProjectDetailJson addFilesItem(String filesItem) {
+  public ProjectDetailPOJO addFilesItem(String filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<String>();
     }
@@ -167,7 +165,7 @@ public class ProjectDetailJson  implements Serializable {
     this.files = files;
   }
 
-  public ProjectDetailJson biddingStatus(BiddingStatusEnum biddingStatus) {
+  public ProjectDetailPOJO biddingStatus(BiddingStatusEnum biddingStatus) {
     this.biddingStatus = biddingStatus;
     return this;
   }
@@ -195,7 +193,7 @@ public class ProjectDetailJson  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ProjectDetailJson projectDetail = (ProjectDetailJson) o;
+    ProjectDetailPOJO projectDetail = (ProjectDetailPOJO) o;
     return Objects.equals(this.id, projectDetail.id) &&
         Objects.equals(this.title, projectDetail.title) &&
         Objects.equals(this.description, projectDetail.description) &&

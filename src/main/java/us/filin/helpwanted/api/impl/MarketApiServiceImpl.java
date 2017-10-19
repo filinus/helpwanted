@@ -4,13 +4,12 @@ import us.filin.helpwanted.PersistenceListener;
 import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.jpa.Project;
 import us.filin.helpwanted.mapping.ProjectDetailMapper;
-import us.filin.helpwanted.model.*;
+import us.filin.helpwanted.pojo.*;
 
 import java.util.List;
 import us.filin.helpwanted.api.NotFoundException;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
@@ -25,7 +24,7 @@ public class MarketApiServiceImpl extends MarketApiService {
           .setParameter("visibility", Project.VisibilityStatus.VISIBLE)
           .setMaxResults(1000)
           .getResultList();
-        List<ProjectDetailJson> projectJsons = ProjectDetailMapper.INSTANCE.toModels(projects);
+        List<ProjectDetailPOJO> projectJsons = ProjectDetailMapper.INSTANCE.toPOJOs(projects);
 
         return Response.ok().entity(projectJsons).build();
     }
@@ -38,8 +37,8 @@ public class MarketApiServiceImpl extends MarketApiService {
           .setMaxResults(1)
           .getSingleResult();
           
-        ProjectDetailJson projectDetailJson = ProjectDetailMapper.INSTANCE.toModel(project);
+        ProjectDetailPOJO projectDetailPOJO = ProjectDetailMapper.INSTANCE.toPOJO(project);
         
-        return Response.ok().entity(projectDetailJson).build();
+        return Response.ok().entity(projectDetailPOJO).build();
     }
 }
