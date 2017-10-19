@@ -47,9 +47,9 @@ public class SellerApiServiceImpl extends SellerApiService {
             case -1:
                 return Response.ok(new ApiResponseMessage(ApiResponseMessage.OK, "removed "+projectId+" project")).build();
             case 0:
-                return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "not found")).build(); //
+                return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "not found")).build(); //
             default:
-                return Response.status(503).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "file a bug")).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "file a bug")).build();
         }
     }
     @Override
