@@ -14,6 +14,13 @@
 package us.filin.helpwanted.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 
@@ -22,6 +29,163 @@ import javax.validation.constraints.*;
  */
 
 public class ProjectDetailJson  implements Serializable {
+  @JsonProperty("id")
+  private String id = null;
+
+  @JsonProperty("title")
+  private String title = null;
+
+  @JsonProperty("description")
+  private String description = null;
+
+  @JsonProperty("files")
+  private List<String> files = null;
+
+  /**
+   * Project Bidding Status
+   */
+  public enum BiddingStatusEnum {
+    WAITING_START("waiting_start"),
+    
+    WAITING_BIDS("waiting_bids"),
+    
+    BIDDING("bidding"),
+    
+    PENDING("pending"),
+    
+    WINNER("winner"),
+    
+    NO_WINNER("no_winner");
+
+    private String value;
+
+    BiddingStatusEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static BiddingStatusEnum fromValue(String text) {
+      for (BiddingStatusEnum b : BiddingStatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("biddingStatus")
+  private BiddingStatusEnum biddingStatus = null;
+
+  public ProjectDetailJson id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+   **/
+  @JsonProperty("id")
+  @ApiModelProperty(value = "")
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public ProjectDetailJson title(String title) {
+    this.title = title;
+    return this;
+  }
+
+  /**
+   * Get title
+   * @return title
+   **/
+  @JsonProperty("title")
+  @ApiModelProperty(example = "translate text from English to Spanish", value = "")
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public ProjectDetailJson description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Get description
+   * @return description
+   **/
+  @JsonProperty("description")
+  @ApiModelProperty(example = "big big description", value = "")
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public ProjectDetailJson files(List<String> files) {
+    this.files = files;
+    return this;
+  }
+
+  public ProjectDetailJson addFilesItem(String filesItem) {
+    if (this.files == null) {
+      this.files = new ArrayList<String>();
+    }
+    this.files.add(filesItem);
+    return this;
+  }
+
+  /**
+   * Get files
+   * @return files
+   **/
+  @JsonProperty("files")
+  @ApiModelProperty(value = "")
+  public List<String> getFiles() {
+    return files;
+  }
+
+  public void setFiles(List<String> files) {
+    this.files = files;
+  }
+
+  public ProjectDetailJson biddingStatus(BiddingStatusEnum biddingStatus) {
+    this.biddingStatus = biddingStatus;
+    return this;
+  }
+
+  /**
+   * Project Bidding Status
+   * @return biddingStatus
+   **/
+  @JsonProperty("biddingStatus")
+  @ApiModelProperty(value = "Project Bidding Status")
+  public BiddingStatusEnum getBiddingStatus() {
+    return biddingStatus;
+  }
+
+  public void setBiddingStatus(BiddingStatusEnum biddingStatus) {
+    this.biddingStatus = biddingStatus;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -31,12 +195,17 @@ public class ProjectDetailJson  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return true;
+    ProjectDetailJson projectDetail = (ProjectDetailJson) o;
+    return Objects.equals(this.id, projectDetail.id) &&
+        Objects.equals(this.title, projectDetail.title) &&
+        Objects.equals(this.description, projectDetail.description) &&
+        Objects.equals(this.files, projectDetail.files) &&
+        Objects.equals(this.biddingStatus, projectDetail.biddingStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash();
+    return Objects.hash(id, title, description, files, biddingStatus);
   }
 
 
@@ -45,6 +214,11 @@ public class ProjectDetailJson  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class ProjectDetailJson {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    files: ").append(toIndentedString(files)).append("\n");
+    sb.append("    biddingStatus: ").append(toIndentedString(biddingStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }

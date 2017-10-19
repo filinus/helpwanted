@@ -423,12 +423,20 @@ definitions:
         example: translate text from English to Spanish
       description:
         type: string
-        example: big big description
+        example: big big description    
     xml:
       name: Project
   ProjectDetail:
-    $ref: '#/definitions/Project'
     properties:
+      id:
+        type: string
+        format: guid
+      title:
+        type: string
+        example: translate text from English to Spanish
+      description:
+        type: string
+        example: big big description
       files:
         type: array
         xml:

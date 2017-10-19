@@ -1,6 +1,9 @@
 package us.filin.helpwanted.api.impl;
 
+import us.filin.helpwanted.PersistenceListener;
 import us.filin.helpwanted.api.*;
+import us.filin.helpwanted.jpa.Project;
+import us.filin.helpwanted.mapping.ProjectDetailMapper;
 import us.filin.helpwanted.model.*;
 
 import us.filin.helpwanted.model.ApiResponseJson;
@@ -14,11 +17,14 @@ import java.io.InputStream;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
+import javax.persistence.EntityManager;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public class SellerApiServiceImpl extends SellerApiService {
+    EntityManager em = PersistenceListener.createEntityManager();
+    
     @Override
     public Response addSellerProject(String username, ProjectJson body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
@@ -31,13 +37,30 @@ public class SellerApiServiceImpl extends SellerApiService {
     }
     @Override
     public Response deleteSellerProject(String username, String projectId, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        int result = em.createQuery("DELETE FROM Project p WHERE p.id = :project_id AND p.owner.username = :username")
+            .setParameter("project_id", projectId)
+            .setParameter("username", username)
+            .executeUpdate();
+        
+        switch (result) {
+            case 1:
+            case -1:
+                return Response.ok(new ApiResponseMessage(ApiResponseMessage.OK, "removed "+projectId+" project")).build();
+            case 0:
+                return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "not found")).build(); //
+            default:
+                return Response.status(503).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "file a bug")).build();
+        }
     }
     @Override
     public Response getSellerProjects(String username, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        List<Project> projects = em.createQuery("SELECT p FROM Project p WHERE p.owner.username = :username ORDER BY P.updated DESC, P.id", Project.class)
+          .setParameter("username", username)
+          .setMaxResults(1000)
+          .getResultList();
+        List<ProjectDetailJson> projectJsons = ProjectDetailMapper.INSTANCE.toModels(projects);
+    
+        return Response.ok().entity(projectJsons).build();
     }
     @Override
     public Response updateSellerProject(String username, String projectId, ProjectJson body, SecurityContext securityContext) throws NotFoundException {
