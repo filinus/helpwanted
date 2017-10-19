@@ -59,7 +59,7 @@ public class BuyerApi  {
     @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Bid on project", notes = "", response = ProjectPOJO.class, tags={ "buyer", })
+    @io.swagger.annotations.ApiOperation(value = "Bid on bookmarked project", notes = "", response = ProjectPOJO.class, tags={ "buyer", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectPOJO.class),
         
@@ -77,7 +77,7 @@ public class BuyerApi  {
     @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Bookmark project", notes = "", response = ProjectPOJO.class, tags={ "buyer", })
+    @io.swagger.annotations.ApiOperation(value = "Bookmark a market project", notes = "", response = ProjectPOJO.class, tags={ "buyer", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectPOJO.class),
         
@@ -99,17 +99,17 @@ public class BuyerApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response deleteOrder(@ApiParam(value = "The buyer's username",required=true) @PathParam("username") String username
+    public Response deleteBuyerProjectBookmark(@ApiParam(value = "The buyer's username",required=true) @PathParam("username") String username
 ,@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") String projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.deleteOrder(username,projectId,securityContext);
+        return delegate.deleteBuyerProjectBookmark(username,projectId,securityContext);
     }
     @GET
     @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Get buyers bid status in specified project", notes = "", response = ProjectPOJO.class, tags={ "buyer", })
+    @io.swagger.annotations.ApiOperation(value = "Get buyers bid status in specified project", notes = "Buyers may track projects where they bid or just bookmarked", response = ProjectPOJO.class, tags={ "buyer", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ProjectPOJO.class),
         

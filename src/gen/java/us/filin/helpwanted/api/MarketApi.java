@@ -60,7 +60,7 @@ public class MarketApi  {
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Finds Projects by criteria", notes = "Multiple status values can be provided with comma separated strings", response = ProjectPOJO.class, responseContainer = "List", authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })

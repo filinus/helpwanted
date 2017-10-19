@@ -4,7 +4,7 @@ PROJECTDIR=$SCRIPTDIR/../
 CODEGENDIR=$PROJECTDIR/../
 
 java  -jar $CODEGENDIR/swagger-codegen-cli.jar generate \
-  -i $SCRIPTDIR/"swagger (22).yaml" \
+  -i $SCRIPTDIR/"swagger.yaml" \
   -c $SCRIPTDIR/options.json \
   --group-id=us.filin.helpwanted \
   --artifact-id=project \

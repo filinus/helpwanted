@@ -61,7 +61,7 @@ public class SellerApi  {
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Crteates a new project description", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -79,7 +79,7 @@ public class SellerApi  {
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "delete an image", notes = "", response = ApiResponsePOJO.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -101,8 +101,8 @@ public class SellerApi  {
     @Path("/{username}/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Delete an existing seller's project", notes = "Delete an existing seller's project if project was not published", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+    @io.swagger.annotations.ApiOperation(value = "Delete an existing seller's project", notes = "Delete an existing seller's project if project hidden or finished without bids", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -122,7 +122,7 @@ public class SellerApi  {
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Seller's projects", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -139,7 +139,7 @@ public class SellerApi  {
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Update an existing project description", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -152,7 +152,7 @@ public class SellerApi  {
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     public Response updateSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
 ,@ApiParam(value = "A seller's existing project ",required=true) @PathParam("projectId") String projectId
-,@ApiParam(value = "Project object that needs to be added to the store" ,required=true) ProjectPOJO body
+,@ApiParam(value = "Project description that needs to be updated" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updateSellerProject(username,projectId,body,securityContext);
@@ -162,7 +162,7 @@ public class SellerApi  {
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ApiResponsePOJO.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -170,7 +170,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
     public Response uploadFile(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of pet to update",required=true) @PathParam("projectId") String projectId
+,@ApiParam(value = "ID of project to update",required=true) @PathParam("projectId") String projectId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
             @FormDataParam("file") InputStream fileInputStream,
