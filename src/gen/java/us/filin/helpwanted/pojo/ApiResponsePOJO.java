@@ -15,14 +15,17 @@ package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import javax.validation.constraints.*;
 
 /**
- * ApiResponseJson
+ * ApiResponsePOJO
  */
 
-public class ApiResponsePOJO implements Serializable {
+public class ApiResponsePOJO  implements Serializable {
   @JsonProperty("code")
   private Integer code = null;
 
@@ -113,7 +116,7 @@ public class ApiResponsePOJO implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiResponseJson {\n");
+    sb.append("class ApiResponsePOJO {\n");
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");

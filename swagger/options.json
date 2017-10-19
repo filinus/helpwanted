@@ -13,7 +13,7 @@
 "artifactDescription": "HelpWanted, the job market for self-employed",
 "invokerPackage": "us.filin.helpwanted",
 "apiPackage": "us.filin.helpwanted.api",
-"modelPackage": "us.filin.helpwanted.model",
+"modelPackage": "us.filin.helpwanted.pojo",
 "serializableModel": true
 
 

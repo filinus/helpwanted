@@ -17,16 +17,18 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
+import javax.validation.constraints.*;
 
 /**
- * ProjectDetailJson
+ * ProjectDetailPOJO
  */
 
-public class ProjectDetailPOJO implements Serializable {
+public class ProjectDetailPOJO  implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -210,7 +212,7 @@ public class ProjectDetailPOJO implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ProjectDetailJson {\n");
+    sb.append("class ProjectDetailPOJO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");

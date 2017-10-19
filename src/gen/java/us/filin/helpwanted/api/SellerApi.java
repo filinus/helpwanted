@@ -1,11 +1,19 @@
 package us.filin.helpwanted.api;
 
+import us.filin.helpwanted.pojo.*;
+import us.filin.helpwanted.api.SellerApiService;
 import us.filin.helpwanted.api.factories.SellerApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
+import io.swagger.jaxrs.*;
 
 import us.filin.helpwanted.pojo.ApiResponsePOJO;
+import java.io.File;
 import us.filin.helpwanted.pojo.ProjectPOJO;
+
+import java.util.Map;
+import java.util.List;
+import us.filin.helpwanted.api.NotFoundException;
 
 import java.io.InputStream;
 
@@ -17,6 +25,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.validation.constraints.*;
 
 @Path("/seller")
 @Consumes({ "application/json" })

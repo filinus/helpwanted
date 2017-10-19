@@ -15,14 +15,17 @@ package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import javax.validation.constraints.*;
 
 /**
- * ProjectJson
+ * ProjectPOJO
  */
 
-public class ProjectPOJO implements Serializable {
+public class ProjectPOJO  implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -113,7 +116,7 @@ public class ProjectPOJO implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ProjectJson {\n");
+    sb.append("class ProjectPOJO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");

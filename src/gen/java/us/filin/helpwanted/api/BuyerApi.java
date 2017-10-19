@@ -1,17 +1,30 @@
 package us.filin.helpwanted.api;
 
+import us.filin.helpwanted.pojo.*;
+import us.filin.helpwanted.api.BuyerApiService;
 import us.filin.helpwanted.api.factories.BuyerApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
+import io.swagger.jaxrs.*;
 
 import us.filin.helpwanted.pojo.BidPOJO;
 import us.filin.helpwanted.pojo.ProjectPOJO;
+
+import java.util.Map;
+import java.util.List;
+import us.filin.helpwanted.api.NotFoundException;
+
+import java.io.InputStream;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.validation.constraints.*;
 
 @Path("/buyer")
 @Consumes({ "application/json" })

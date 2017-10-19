@@ -17,15 +17,17 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.io.Serializable;
+import javax.validation.constraints.*;
 
 /**
- * BidJson
+ * BidPOJO
  */
 
-public class BidPOJO implements Serializable {
+public class BidPOJO  implements Serializable {
   @JsonProperty("id")
   private String id = null;
 
@@ -230,7 +232,7 @@ public class BidPOJO implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BidJson {\n");
+    sb.append("class BidPOJO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    project: ").append(toIndentedString(project)).append("\n");
