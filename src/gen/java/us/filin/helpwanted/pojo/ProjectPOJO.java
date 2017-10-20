@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.UUID;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 
@@ -27,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class ProjectPOJO  implements Serializable {
   @JsonProperty("id")
-  private String id = null;
+  private UUID id = null;
 
   @JsonProperty("title")
   private String title = null;
@@ -35,7 +36,7 @@ public class ProjectPOJO  implements Serializable {
   @JsonProperty("description")
   private String description = null;
 
-  public ProjectPOJO id(String id) {
+  public ProjectPOJO id(UUID id) {
     this.id = id;
     return this;
   }
@@ -46,11 +47,11 @@ public class ProjectPOJO  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

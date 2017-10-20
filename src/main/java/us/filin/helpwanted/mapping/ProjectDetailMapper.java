@@ -8,7 +8,7 @@ import us.filin.helpwanted.pojo.ProjectDetailPOJO;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 
-public interface ProjectDetailMapper extends BasicMapper<Project, ProjectDetailPOJO> {
-  ProjectDetailMapper INSTANCE = Mappers.getMapper(ProjectDetailMapper.class);
+public abstract class  ProjectDetailMapper extends BasicMapper<Project, ProjectDetailPOJO> {
+  public static final ProjectDetailMapper INSTANCE = Mappers.getMapper(ProjectDetailMapper.class);
 }
 

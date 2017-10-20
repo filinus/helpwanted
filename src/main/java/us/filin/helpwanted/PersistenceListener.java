@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @WebListener
@@ -31,35 +32,41 @@ public class PersistenceListener implements ServletContextListener {
     
     User bidder=null;
     for (int i = 0; i < 500; i++) {
-      User user = new User();
-      user.setFirstName("First "+i);
-      user.setLastName("Last "+i);
-      user.setUsername("username_"+i);
+      User user = User.builder()
+        .firstName("First "+i)
+        .lastName("Last "+i)
+        .username("username_"+i)
+        .build();
       em.persist(user);
-  
-  
-      Project project = new Project();
-      project.setTitle("Title"+i);
-      project.setDescription("Some Description "+i);
-      project.setOwner(user);
-      project.setStart(new Date(baseDate.getTime() + (i-250)*MS_IN_DAY));
-      project.setFinish(new Date(baseDate.getTime() + (i-200)*MS_IN_DAY));
-      project.setVisibilityStatus(visibilityStatuses[i % visibilityStatuses.length]);
+      
+      Project project = Project.builder()
+        .title("Title"+i)
+        .description("Some Description "+i)
+        .owner(user)
+        .start(new Date(baseDate.getTime() + (i-250)*MS_IN_DAY))
+        .finish(new Date(baseDate.getTime() + (i-200)*MS_IN_DAY))
+        .visibilityStatus(visibilityStatuses[i % visibilityStatuses.length])
+        .build();
   
       em.persist(project);
   
       if ((i%2) == 0) {
         bidder = user;
       } else {
-        Bid bid = new Bid();
-        bid.setBidded(new Date((project.getStart().getTime()+project.getFinish().getTime())%2));
-        bid.setBidder(bidder);
-        bid.setQuantity(1+i%10);
-        bid.setPricePerUnit(20-i%10);
-        bid.setPrice(bid.getPrice()*bid.getPricePerUnit());
-        bid.setProject(project);
-        em.persist(bid);
-        project.setBid(bid);
+        int quanity = 1+i%10;
+        double pricePerUnit = 20-i%10;
+        double price = quanity*pricePerUnit;
+        
+        BidRequest bidRequest = BidRequest.builder()
+          .bidded(new Date((project.getStart().getTime()+project.getFinish().getTime())%2))
+          .bidder(bidder)
+          .quantity(quanity)
+          .pricePerUnit(new BigDecimal(pricePerUnit))
+          .price(new BigDecimal(price))
+          .project(project)
+          .build();
+        em.persist(bidRequest);
+        project.setBidRequest(bidRequest);
         em.merge(project);
       }
     }

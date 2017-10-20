@@ -88,7 +88,7 @@ paths:
         description: 'A seller''s existing project '
         required: true
         type: string
-        format: guid
+        format: uuid
     put:
       tags:
         - seller
@@ -130,7 +130,7 @@ paths:
           description: A seller's existing project
           required: true
           type: string
-          format: guid
+          format: uuid
       responses:
         '400':
           description: Invalid ID supplied
@@ -189,7 +189,7 @@ paths:
           description: ID of project to return
           required: true
           type: string
-          format: guid
+          format: uuid
       responses:
         '200':
           description: successful operation
@@ -223,7 +223,7 @@ paths:
           description: ID of project to update
           required: true
           type: string
-          format: guid
+          format: uuid
         - name: additionalMetadata
           in: formData
           description: Additional data to pass to server
@@ -265,7 +265,7 @@ paths:
           description: ID of project containg image
           required: true
           type: string
-          format: guid
+          format: uuid
         - name: imageId
           in: path
           description: image ID
@@ -290,6 +290,46 @@ paths:
         - helpwanted_auth:
             - 'write:projects'
             - 'bid:projects'
+  '/buyer/{username}/projects':
+    get:
+      tags:
+        - buyer
+      summary: 'Buyer''s projects'
+      description: 'All those projects buyer''s bid'
+      operationId: findBuyersProjects
+      produces:
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The buyer's username
+          required: true
+          type: string
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          type: array
+          items:
+            type: string
+            enum:
+              - active
+              - published
+              - finished
+            default: active
+          collectionFormat: multi
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Project'
+        '400':
+          description: Invalid status value
+      security:
+        - helpwanted_auth:
+            - 'bid:projects'
   '/buyer/{username}/projects/{projectId}':
     parameters:
       - name: username
@@ -302,7 +342,7 @@ paths:
         description: an existing project ID
         required: true
         type: string
-        format: guid
+        format: uuid
     get:
       tags:
         - buyer
@@ -347,7 +387,7 @@ paths:
           description: Bid on project
           required: true
           schema:
-            $ref: '#/definitions/Bid'
+            $ref: '#/definitions/BidRequest'
       responses:
         '200':
           description: successful operation
@@ -361,7 +401,7 @@ paths:
       tags:
         - buyer
       summary: Delete not-active project by ID
-      description: 'Buyer may delete project without his bid, delivered'
+      description: 'Buyers may delete projects they bid. If projects won, it must be delivered. Delivered projects are moved to archive'
       operationId: deleteBuyerProjectBookmark
       responses:
         '400':
@@ -381,18 +421,15 @@ securityDefinitions:
     name: api_key
     in: header
 definitions:
-  Bid:
+  BidRequest:
     type: object
     properties:
-      id:
-        type: string
-        format: guid
       project:
         type: string
-        format: guid
+        format: uuid
       bidder:
         type: string
-        format: guid
+        format: uuid
         readOnly: true
       quantity:
         type: integer
@@ -407,41 +444,32 @@ definitions:
       pricePerUnit:
         type: number
         format: currency
-      price:
-        type: number
-        format: currency
-    xml:
-      name: Order
+        example: 7.38
   Project:
     type: object
     properties:
       id:
         type: string
-        format: guid
+        format: uuid
       title:
         type: string
         example: translate text from English to Spanish
       description:
         type: string
         example: big big description
-    xml:
-      name: Project
   ProjectDetail:
     properties:
       id:
         type: string
-        format: guid
+        format: uuid
       title:
         type: string
         example: translate text from English to Spanish
       description:
         type: string
         example: big big description
-      files:
+      files:  
         type: array
-        xml:
-          name: files
-          wrapped: true
         items:
           type: string
       biddingStatus:
@@ -454,6 +482,10 @@ definitions:
           - pending
           - winner
           - no_winner
+      winningPrice:
+        type: number
+        format: currency
+        example: 17.95
   ApiResponse:
     type: object
     properties:

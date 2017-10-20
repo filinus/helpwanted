@@ -1,16 +1,18 @@
 package us.filin.helpwanted.jpa;
 
+import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+@Builder @AllArgsConstructor
+@Entity @Getter @Setter @NoArgsConstructor
 @Table(name = "projects",
   indexes = {
     @Index(name = "time_desc", columnList = "created DESC, id"),
     @Index(name = "visibility_status", columnList = "visbilityStatus")
   }
 )
-public class Project extends Persistent {
+public class Project extends Identified {
   
   @OneToOne(optional = false, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "owner_id", nullable = false, updatable = false)
@@ -18,7 +20,7 @@ public class Project extends Persistent {
   
   @OneToOne(optional = true, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "bid_id", nullable = true, updatable = true)
-  private Bid bid;
+  private BidRequest bidRequest;
   
   private String title;
   
@@ -31,6 +33,8 @@ public class Project extends Persistent {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "finish", nullable = false)
   private Date finish;
+  
+  private boolean hasBids;
   
   @PostUpdate
   void postUpdate() {
@@ -47,11 +51,11 @@ public class Project extends Persistent {
     if (now.before(start)) {
       biddingStatus = BiddingStatus.WAITING_START;
     } else if (now.before(finish)) {
-      biddingStatus = (bid == null) ? BiddingStatus.WAITING_BIDS : BiddingStatus.BIDDING;
+      biddingStatus = (bidRequest == null) ? BiddingStatus.WAITING_BIDS : BiddingStatus.BIDDING;
     } else if (now.before(new Date(finish.getTime()+60*1000))) {
       biddingStatus = BiddingStatus.PENDING;
     } else {
-      biddingStatus = (bid == null) ? BiddingStatus.NO_WINNER : BiddingStatus.WINNER;
+      biddingStatus = (bidRequest == null) ? BiddingStatus.NO_WINNER : BiddingStatus.WINNER;
     }
   }
   
@@ -77,63 +81,4 @@ public class Project extends Persistent {
   @Transient
   private BiddingStatus biddingStatus;
   
-  public User getOwner() {
-    return owner;
-  }
-  
-  public void setOwner(User owner) {
-    this.owner = owner;
-  }
-  
-  public Bid getBid() {
-    return bid;
-  }
-  
-  public void setBid(Bid bid) {
-    this.bid = bid;
-  }
-  
-  public String getTitle() {
-    return title;
-  }
-  
-  public void setTitle(String title) {
-    this.title = title;
-  }
-  
-  public String getDescription() {
-    return description;
-  }
-  
-  public void setDescription(String description) {
-    this.description = description;
-  }
-  
-  public Date getStart() {
-    return start;
-  }
-  
-  public void setStart(Date start) {
-    this.start = start;
-  }
-  
-  public Date getFinish() {
-    return finish;
-  }
-  
-  public void setFinish(Date finish) {
-    this.finish = finish;
-  }
-  
-  public VisibilityStatus getVisibilityStatus() {
-    return visibilityStatus;
-  }
-  
-  public void setVisibilityStatus(VisibilityStatus visibilityStatus) {
-    this.visibilityStatus = visibilityStatus;
-  }
-  
-  public BiddingStatus getBiddingStatus() {
-    return biddingStatus;
-  }
 }

@@ -5,8 +5,9 @@ import us.filin.helpwanted.pojo.*;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
-import us.filin.helpwanted.pojo.BidPOJO;
+import us.filin.helpwanted.pojo.BidRequestPOJO;
 import us.filin.helpwanted.pojo.ProjectPOJO;
+import java.util.UUID;
 
 import java.util.List;
 import us.filin.helpwanted.api.NotFoundException;
@@ -18,8 +19,9 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public abstract class BuyerApiService {
-    public abstract Response bidBuyerProject(String username,String projectId,BidPOJO body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response bookmarkBuyerProject(String username,String projectId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response deleteBuyerProjectBookmark(String username,String projectId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response getBuyerProject(String username,String projectId,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response bidBuyerProject(String username,UUID projectId,BidRequestPOJO body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response bookmarkBuyerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response deleteBuyerProjectBookmark(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response findBuyersProjects(String username, @NotNull List<String> status,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response getBuyerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
 }

@@ -10,6 +10,7 @@ import io.swagger.jaxrs.*;
 import us.filin.helpwanted.pojo.ApiResponsePOJO;
 import java.io.File;
 import us.filin.helpwanted.pojo.ProjectPOJO;
+import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
@@ -87,7 +88,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
     public Response deleteProjectImage(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of project containg image",required=true) @PathParam("projectId") String projectId
+,@ApiParam(value = "ID of project containg image",required=true) @PathParam("projectId") UUID projectId
 ,@ApiParam(value = "image ID",required=true) @PathParam("imageId") String imageId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
@@ -112,7 +113,7 @@ public class SellerApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found", response = Void.class) })
     public Response deleteSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "A seller's existing project",required=true) @PathParam("projectId") String projectId
+,@ApiParam(value = "A seller's existing project",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteSellerProject(username,projectId,securityContext);
@@ -151,7 +152,7 @@ public class SellerApi  {
         
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     public Response updateSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "A seller's existing project ",required=true) @PathParam("projectId") String projectId
+,@ApiParam(value = "A seller's existing project ",required=true) @PathParam("projectId") UUID projectId
 ,@ApiParam(value = "Project description that needs to be updated" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
@@ -170,7 +171,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
     public Response uploadFile(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of project to update",required=true) @PathParam("projectId") String projectId
+,@ApiParam(value = "ID of project to update",required=true) @PathParam("projectId") UUID projectId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
             @FormDataParam("file") InputStream fileInputStream,

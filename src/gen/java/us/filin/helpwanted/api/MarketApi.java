@@ -9,6 +9,7 @@ import io.swagger.jaxrs.*;
 
 import us.filin.helpwanted.pojo.ProjectDetailPOJO;
 import us.filin.helpwanted.pojo.ProjectPOJO;
+import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
@@ -87,7 +88,7 @@ public class MarketApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found on market", response = Void.class) })
-    public Response getProjectById(@ApiParam(value = "ID of project to return",required=true) @PathParam("projectId") String projectId
+    public Response getProjectById(@ApiParam(value = "ID of project to return",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getProjectById(projectId,securityContext);

@@ -35,6 +35,11 @@
         <configuration>
           <annotationProcessorPaths>
             <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>1.16.18</version>
+            </path>
+            <path>
               <groupId>org.mapstruct</groupId>
               <artifactId>mapstruct-processor</artifactId>
               <version>${org.mapstruct.version}</version>
@@ -215,6 +220,13 @@
       <groupId>org.apache.derby</groupId>
       <artifactId>derbyclient</artifactId>
       <version>10.13.1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.18</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

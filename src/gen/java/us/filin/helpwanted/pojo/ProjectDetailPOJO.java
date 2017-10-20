@@ -19,8 +19,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 
@@ -30,7 +32,7 @@ import javax.validation.constraints.*;
 
 public class ProjectDetailPOJO  implements Serializable {
   @JsonProperty("id")
-  private String id = null;
+  private UUID id = null;
 
   @JsonProperty("title")
   private String title = null;
@@ -83,7 +85,10 @@ public class ProjectDetailPOJO  implements Serializable {
   @JsonProperty("biddingStatus")
   private BiddingStatusEnum biddingStatus = null;
 
-  public ProjectDetailPOJO id(String id) {
+  @JsonProperty("winningPrice")
+  private BigDecimal winningPrice = null;
+
+  public ProjectDetailPOJO id(UUID id) {
     this.id = id;
     return this;
   }
@@ -94,11 +99,11 @@ public class ProjectDetailPOJO  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -186,6 +191,25 @@ public class ProjectDetailPOJO  implements Serializable {
     this.biddingStatus = biddingStatus;
   }
 
+  public ProjectDetailPOJO winningPrice(BigDecimal winningPrice) {
+    this.winningPrice = winningPrice;
+    return this;
+  }
+
+  /**
+   * Get winningPrice
+   * @return winningPrice
+   **/
+  @JsonProperty("winningPrice")
+  @ApiModelProperty(example = "17.95", value = "")
+  public BigDecimal getWinningPrice() {
+    return winningPrice;
+  }
+
+  public void setWinningPrice(BigDecimal winningPrice) {
+    this.winningPrice = winningPrice;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -200,12 +224,13 @@ public class ProjectDetailPOJO  implements Serializable {
         Objects.equals(this.title, projectDetail.title) &&
         Objects.equals(this.description, projectDetail.description) &&
         Objects.equals(this.files, projectDetail.files) &&
-        Objects.equals(this.biddingStatus, projectDetail.biddingStatus);
+        Objects.equals(this.biddingStatus, projectDetail.biddingStatus) &&
+        Objects.equals(this.winningPrice, projectDetail.winningPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, files, biddingStatus);
+    return Objects.hash(id, title, description, files, biddingStatus, winningPrice);
   }
 
 
@@ -219,6 +244,7 @@ public class ProjectDetailPOJO  implements Serializable {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("    biddingStatus: ").append(toIndentedString(biddingStatus)).append("\n");
+    sb.append("    winningPrice: ").append(toIndentedString(winningPrice)).append("\n");
     sb.append("}");
     return sb.toString();
   }
