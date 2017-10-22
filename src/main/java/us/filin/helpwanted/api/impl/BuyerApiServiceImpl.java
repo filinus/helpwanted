@@ -2,10 +2,12 @@ package us.filin.helpwanted.api.impl;
 
 import us.filin.helpwanted.PersistenceListener;
 import us.filin.helpwanted.api.*;
+import us.filin.helpwanted.jpa.BidRequest;
 import us.filin.helpwanted.jpa.BuyerProject;
 import us.filin.helpwanted.jpa.Project;
 import us.filin.helpwanted.jpa.User;
 import us.filin.helpwanted.jpa.UserProjectKey;
+import us.filin.helpwanted.mapping.BidRequestMapper;
 import us.filin.helpwanted.pojo.*;
 
 import us.filin.helpwanted.pojo.BidRequestPOJO;
@@ -24,10 +26,53 @@ import javax.validation.constraints.*;
 
 public class BuyerApiServiceImpl extends BuyerApiService {
     EntityManager em = PersistenceListener.createEntityManager();
+    User buyer = null;
+    
+    private void setupBuyer(SecurityContext securityContext) {
+        String username = securityContext.getUserPrincipal().getName();
+    
+        buyer = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+          .setParameter("username", username)
+          .getSingleResult();
+    }
+    
+    private Project getUserProject(UUID projectId) throws NotFoundException {
+        Project project = em.createQuery(
+          "SELECT p "+
+          "FROM Project p " +
+          "WHERE p.id = :project_id " +
+          "AND p.visibilityStatus = Project.VisibilityStatus.VISIBLE " +
+          "AND p.owner.id != :buyer_id",
+          Project.class)
+          .setParameter("project_id", projectId.toString().toUpperCase())
+          .setParameter("buyer_id", buyer.getId())
+          .getSingleResult();
+        
+        if (project == null) {
+            throw new NotFoundException(404, "project "+projectId+" not found or is not available for buyer acrivity");
+        }
+        return project;
+    }
+    
     
     @Override
     public Response bidBuyerProject(String username, UUID projectId, BidRequestPOJO body, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
+        if (body == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "bid payload lost")).build();
+        }
+        
+        BidRequest bidRequest = BidRequestMapper.INSTANCE.toPeristent(body);
+        
+        setupBuyer(securityContext);
+        
+        bidRequest.setBidder(buyer);
+        Project project = getUserProject(projectId);
+
+        bidRequest.setProject(project);
+        
+        em.getTransaction().begin();
+        
+        
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
@@ -35,9 +80,9 @@ public class BuyerApiServiceImpl extends BuyerApiService {
     
         User buyer = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
           .setParameter("username", username).getSingleResult();
-        Project project = em.find(Project.class, projectId);
+        Project project = em.find(Project.class, projectId.toString().toUpperCase());
         
-        UserProjectKey userProjectKey = new UserProjectKey(buyer.getId().toString(), projectId.toString());
+        UserProjectKey userProjectKey = new UserProjectKey(buyer.getId(), projectId.toString().toUpperCase());
         try {
             em.getTransaction().begin();
             
@@ -47,7 +92,6 @@ public class BuyerApiServiceImpl extends BuyerApiService {
         } catch (Exception e) {
             em.find(BuyerProject.class, userProjectKey);
         }
-        em.close();
         
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "hghgjhgh")).build();
     }

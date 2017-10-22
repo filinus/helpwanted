@@ -25,7 +25,7 @@ public abstract class BasicMapper<Persitent extends Identified, Pojo> {
   }
   
   public String map(UUID value) {
-    return value.toString();
+    return value.toString().toUpperCase();
   }
   
 

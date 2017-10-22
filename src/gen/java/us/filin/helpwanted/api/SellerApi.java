@@ -171,7 +171,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
     public Response uploadFile(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of project to update",required=true) @PathParam("projectId") UUID projectId
+,@ApiParam(value = "ID of project to update",required=true) @PathParam("projectId") String projectId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
             @FormDataParam("file") InputStream fileInputStream,

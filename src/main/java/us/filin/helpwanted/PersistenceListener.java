@@ -22,14 +22,18 @@ public class PersistenceListener implements ServletContextListener {
     ServletContext context = sce.getServletContext();
     entityManagerFactory = Persistence.createEntityManagerFactory("the-unit");
     
-    //SOME SAMPLE DATA
+    generateSampleData();
+  }
+  
+  
+  private void generateSampleData() {
     EntityManager em = createEntityManager();
     em.getTransaction().begin();
-    
+  
     final int MS_IN_DAY = 1000*60*60*24;
     final Date baseDate = new Date();
     final Project.VisibilityStatus[] visibilityStatuses = Project.VisibilityStatus.values();
-    
+  
     User bidder=null;
     for (int i = 0; i < 500; i++) {
       User user = User.builder()
@@ -38,7 +42,7 @@ public class PersistenceListener implements ServletContextListener {
         .username("username_"+i)
         .build();
       em.persist(user);
-      
+    
       Project project = Project.builder()
         .title("Title"+i)
         .description("Some Description "+i)
@@ -47,31 +51,33 @@ public class PersistenceListener implements ServletContextListener {
         .finish(new Date(baseDate.getTime() + (i-200)*MS_IN_DAY))
         .visibilityStatus(visibilityStatuses[i % visibilityStatuses.length])
         .build();
-  
+    
       em.persist(project);
-  
+    
       if ((i%2) == 0) {
         bidder = user;
       } else {
-        int quanity = 1+i%10;
-        double pricePerUnit = 20-i%10;
-        double price = quanity*pricePerUnit;
-        
-        BidRequest bidRequest = BidRequest.builder()
-          .bidded(new Date((project.getStart().getTime()+project.getFinish().getTime())%2))
-          .bidder(bidder)
-          .quantity(quanity)
-          .pricePerUnit(new BigDecimal(pricePerUnit))
-          .price(new BigDecimal(price))
-          .project(project)
-          .build();
-        em.persist(bidRequest);
-        project.setBidRequest(bidRequest);
+        for(int j=0; j< i%4; j++) {
+          int quanity = 1+j+i%10;
+          double pricePerUnit = 20-i%10+j;
+          double price = quanity*pricePerUnit;
+          
+          BidRequest bidRequest = BidRequest.builder()
+            .bidded(new Date((project.getStart().getTime() + project.getFinish().getTime()+j*100) % 2))
+            .bidder(bidder)
+            .quantity(quanity)
+            .pricePerUnit(new BigDecimal(pricePerUnit))
+            .price(new BigDecimal(price))
+            .project(project)
+            .build();
+          em.persist(bidRequest);
+          project.setBidRequest(bidRequest);
+        }
         em.merge(project);
       }
     }
     em.getTransaction().commit();
-    em.close();
+    
   }
   
   public void contextDestroyed(ServletContextEvent sce) {

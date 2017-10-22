@@ -5,6 +5,7 @@ import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.jpa.BidRequest;
 import us.filin.helpwanted.jpa.Project;
 import us.filin.helpwanted.mapping.ProjectDetailMapper;
+import us.filin.helpwanted.mapping.ProjectMapper;
 import us.filin.helpwanted.pojo.*;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class MarketApiServiceImpl extends MarketApiService {
           .setParameter("visibility", Project.VisibilityStatus.VISIBLE)
           .setMaxResults(1000)
           .getResultList();
-        List<ProjectDetailPOJO> projectJsons = ProjectDetailMapper.INSTANCE.toPOJOs(projects);
+        //List<ProjectDetailPOJO> projectJsons = ProjectDetailMapper.INSTANCE.toPOJOs(projects);
+        List<ProjectPOJO> projectJsons = ProjectMapper.INSTANCE.toPOJOs(projects);
 
         return Response.ok().entity(projectJsons).build();
     }
@@ -35,7 +37,7 @@ public class MarketApiServiceImpl extends MarketApiService {
 //TODO: could and should be done by single *QL request
         
         Project project = em.createQuery("SELECT p FROM Project p WHERE p.id = :id AND p.visibilityStatus = :visibility", Project.class)
-          .setParameter("id", projectId)
+          .setParameter("id", projectId.toString().toUpperCase())
           .setParameter("visibility", Project.VisibilityStatus.VISIBLE)
           .getSingleResult();
         

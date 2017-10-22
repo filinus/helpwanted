@@ -1,6 +1,8 @@
 package us.filin.helpwanted.jpa;
 
 import lombok.*;
+
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -18,7 +20,7 @@ public class Project extends Identified {
   @JoinColumn(name = "owner_id", nullable = false, updatable = false)
   private User owner;
   
-  @OneToOne(optional = true, cascade = CascadeType.PERSIST)
+  @OneToOne(optional = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
   @JoinColumn(name = "bid_id", nullable = true, updatable = true)
   private BidRequest bidRequest;
   
@@ -33,31 +35,6 @@ public class Project extends Identified {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "finish", nullable = false)
   private Date finish;
-  
-  private boolean hasBids;
-  
-  @PostUpdate
-  void postUpdate() {
-    updateBiddingStatus();
-  }
-  
-  @PostLoad
-  void postLoad() {
-    updateBiddingStatus();
-  }
-  
-  private void updateBiddingStatus() {
-    Date now = new Date();
-    if (now.before(start)) {
-      biddingStatus = BiddingStatus.WAITING_START;
-    } else if (now.before(finish)) {
-      biddingStatus = (bidRequest == null) ? BiddingStatus.WAITING_BIDS : BiddingStatus.BIDDING;
-    } else if (now.before(new Date(finish.getTime()+60*1000))) {
-      biddingStatus = BiddingStatus.PENDING;
-    } else {
-      biddingStatus = (bidRequest == null) ? BiddingStatus.NO_WINNER : BiddingStatus.WINNER;
-    }
-  }
   
   public enum VisibilityStatus {
     HIDDEN,
@@ -80,5 +57,21 @@ public class Project extends Identified {
   
   @Transient
   private BiddingStatus biddingStatus;
+  
+  @PostConstruct
+  @PostLoad
+  @PostUpdate
+  public void updateBiddingStatus() {
+    Date now = new Date();
+    if (now.before(start)) {
+      biddingStatus = BiddingStatus.WAITING_START;
+    } else if (now.before(finish)) {
+      biddingStatus = (bidRequest == null) ? BiddingStatus.WAITING_BIDS : BiddingStatus.BIDDING;
+    } else if (now.before(new Date(finish.getTime()+60*1000))) {
+      biddingStatus = BiddingStatus.PENDING;
+    } else {
+      biddingStatus = (bidRequest == null) ? BiddingStatus.NO_WINNER : BiddingStatus.WINNER;
+    }
+  }
   
 }

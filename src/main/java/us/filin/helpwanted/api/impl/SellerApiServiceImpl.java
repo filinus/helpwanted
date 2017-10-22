@@ -36,7 +36,7 @@ public class SellerApiServiceImpl extends SellerApiService {
     @Override
     public Response deleteSellerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
         int result = em.createQuery("DELETE FROM Project p WHERE p.id = :project_id AND p.owner.username = :username")
-            .setParameter("project_id", projectId)
+            .setParameter("project_id", projectId.toString().toUpperCase())
             .setParameter("username", username)
             .executeUpdate();
         
