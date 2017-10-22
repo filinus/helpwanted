@@ -11,6 +11,5 @@ java  -jar $CODEGENDIR/swagger-codegen-cli.jar generate \
   --library jersey2 \
   -l jaxrs \
   -o $PROJECTDIR \
-  --model-name-suffix=POJO
-
-  
+  --model-name-suffix=POJO \
+  --template-dir $SCRIPTDIR/templates/JavaJaxRS

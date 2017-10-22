@@ -27,6 +27,8 @@ import javax.validation.constraints.*;
  */
 
 public class ProjectPOJO  implements Serializable {
+  private static final long serialVersionUID = 42L;
+
   @JsonProperty("id")
   private UUID id = null;
 

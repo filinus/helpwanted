@@ -26,6 +26,8 @@ import javax.validation.constraints.*;
  */
 
 public class ApiResponsePOJO  implements Serializable {
+  private static final long serialVersionUID = 42L;
+
   @JsonProperty("code")
   private Integer code = null;
 
