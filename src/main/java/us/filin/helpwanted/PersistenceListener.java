@@ -64,11 +64,11 @@ public class PersistenceListener implements ServletContextListener {
           
           BidRequest bidRequest = BidRequest.builder()
             .bidded(new Date((project.getStart().getTime() + project.getFinish().getTime()+j*100) % 2))
-            .bidder(bidder)
+            .projectId(project.getId())
+            .userId(bidder.getId())
             .quantity(quanity)
             .pricePerUnit(new BigDecimal(pricePerUnit))
             .price(new BigDecimal(price))
-            .project(project)
             .build();
           em.persist(bidRequest);
           project.setBidRequest(bidRequest);

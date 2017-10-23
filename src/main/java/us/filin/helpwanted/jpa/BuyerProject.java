@@ -8,8 +8,15 @@ import javax.persistence.*;
 @Table(name = "buyer_projects")
 public class BuyerProject extends Timestamped {
   
-  @EmbeddedId
-  private UserProjectKey userProjectKey;
+  //@OneToOne(optional = false, cascade = CascadeType.PERSIST)
+  //@JoinColumn(name = "project_id", nullable=false, updatable=false)
+  @Id
+  private String projectId;
+  
+  //@OneToOne(optional = false, cascade = CascadeType.PERSIST)
+  //@JoinColumn(name = "bidder_id", nullable=false, updatable=false)
+  @Id
+  private String bidderId;
   
   private boolean visible;
 }

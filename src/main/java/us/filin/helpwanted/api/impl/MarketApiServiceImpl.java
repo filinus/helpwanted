@@ -17,8 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public class MarketApiServiceImpl extends MarketApiService {
-    EntityManager em = PersistenceListener.createEntityManager();
+public class MarketApiServiceImpl extends AbstractApiService implements MarketApiService {
     
     @Override
     public Response findProjectsByStatus( @NotNull List<String> status, SecurityContext securityContext) throws NotFoundException {

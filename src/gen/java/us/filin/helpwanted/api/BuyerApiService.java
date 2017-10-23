@@ -18,10 +18,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public abstract class BuyerApiService {
-    public abstract Response bidBuyerProject(String username,UUID projectId,BidRequestPOJO body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response bookmarkBuyerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response deleteBuyerProjectBookmark(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response findBuyersProjects(String username, @NotNull List<String> status,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response getBuyerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
+public interface BuyerApiService {
+    public Response bidBuyerProject(String username,UUID projectId,BidRequestPOJO body,SecurityContext securityContext) throws NotFoundException;
+    public Response bookmarkBuyerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
+    public Response deleteBuyerProjectBookmark(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
+    public Response findBuyersProjects(String username, @NotNull List<String> status,SecurityContext securityContext) throws NotFoundException;
+    public Response getBuyerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
 }

@@ -18,14 +18,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
  * ApiResponsePOJO
  */
 
-public class ApiResponsePOJO  implements Serializable {
+public class ApiResponsePOJO   {
   private static final long serialVersionUID = 42L;
 
   @JsonProperty("code")

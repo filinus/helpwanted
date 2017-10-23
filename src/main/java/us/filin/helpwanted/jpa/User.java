@@ -1,8 +1,12 @@
 package us.filin.helpwanted.jpa;
 
 import lombok.*;
+import org.eclipse.persistence.annotations.UuidGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Builder @AllArgsConstructor

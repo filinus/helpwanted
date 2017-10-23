@@ -21,14 +21,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.UUID;
-import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
  * BidRequestPOJO
  */
 
-public class BidRequestPOJO  implements Serializable {
+public class BidRequestPOJO   {
   private static final long serialVersionUID = 42L;
 
   @JsonProperty("project")
@@ -77,11 +76,6 @@ public class BidRequestPOJO  implements Serializable {
   @JsonProperty("pricePerUnit")
   private BigDecimal pricePerUnit = null;
 
-  public BidRequestPOJO project(UUID project) {
-    this.project = project;
-    return this;
-  }
-
   /**
    * Get project
    * @return project
@@ -90,10 +84,6 @@ public class BidRequestPOJO  implements Serializable {
   @ApiModelProperty(value = "")
   public UUID getProject() {
     return project;
-  }
-
-  public void setProject(UUID project) {
-    this.project = project;
   }
 
   /**

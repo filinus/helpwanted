@@ -20,9 +20,7 @@ import javax.persistence.EntityManager;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-public class SellerApiServiceImpl extends SellerApiService {
-    EntityManager em = PersistenceListener.createEntityManager();
-    
+public class SellerApiServiceImpl extends AbstractApiService implements SellerApiService {
     @Override
     public Response addSellerProject(String username, ProjectPOJO body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
@@ -65,9 +63,9 @@ public class SellerApiServiceImpl extends SellerApiService {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
+    
     @Override
     public Response uploadFile(String username, UUID projectId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 }

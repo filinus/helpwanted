@@ -223,7 +223,7 @@ paths:
           description: ID of project to update
           required: true
           type: string
-          format: guid
+          format: uuid
         - name: additionalMetadata
           in: formData
           description: Additional data to pass to server
@@ -427,6 +427,7 @@ definitions:
       project:
         type: string
         format: uuid
+        readOnly: true
       bidder:
         type: string
         format: uuid
@@ -451,6 +452,7 @@ definitions:
       id:
         type: string
         format: uuid
+        readOnly: true
       title:
         type: string
         example: translate text from English to Spanish
@@ -458,11 +460,17 @@ definitions:
         type: string
         example: big big description
   ProjectDetail:
-    allOf:
-    - $ref: '#/definitions/Project'
-    - type: object
-      discriminator: resource_type
     properties:
+      id:
+        type: string
+        format: uuid
+        readOnly: true
+      title:
+        type: string
+        example: translate text from English to Spanish
+      description:
+        type: string
+        example: big big description
       files:
         type: array
         items:

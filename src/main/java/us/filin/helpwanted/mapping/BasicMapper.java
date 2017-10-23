@@ -2,11 +2,12 @@ package us.filin.helpwanted.mapping;
 
 import org.mapstruct.Mappings;
 import us.filin.helpwanted.jpa.Identified;
+import us.filin.helpwanted.jpa.Timestamped;
 
 import java.util.List;
 import java.util.UUID;
 
-public abstract class BasicMapper<Persitent extends Identified, Pojo> {
+public abstract class BasicMapper<Persitent extends Timestamped, Pojo> {
 
   @Mappings({})
   public abstract Pojo toPOJO(Persitent persitent);
@@ -20,13 +21,12 @@ public abstract class BasicMapper<Persitent extends Identified, Pojo> {
   @Mappings({})
   public abstract List<Persitent> toPersistents(List<Pojo> pojos);
   
-  public UUID map(String value) {
+  public UUID toUUID(String value) {
     return UUID.fromString(value);
   }
   
-  public String map(UUID value) {
+  public String toString(UUID value) {
     return value.toString().toUpperCase();
   }
   
-
 }

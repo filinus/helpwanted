@@ -6,6 +6,8 @@ import org.mapstruct.factory.Mappers;
 import us.filin.helpwanted.jpa.Project;
 import us.filin.helpwanted.pojo.ProjectDetailPOJO;
 
+import java.util.UUID;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 
 public abstract class  ProjectDetailMapper extends BasicMapper<Project, ProjectDetailPOJO> {

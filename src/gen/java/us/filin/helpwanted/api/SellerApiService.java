@@ -19,11 +19,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public abstract class SellerApiService {
-    public abstract Response addSellerProject(String username,ProjectPOJO body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response deleteProjectImage(String username,UUID projectId,String imageId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response deleteSellerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response getSellerProjects(String username,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response updateSellerProject(String username,UUID projectId,ProjectPOJO body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response uploadFile(String username,String projectId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
+public interface SellerApiService {
+    public Response addSellerProject(String username,ProjectPOJO body,SecurityContext securityContext) throws NotFoundException;
+    public Response deleteProjectImage(String username,UUID projectId,String imageId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
+    public Response deleteSellerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
+    public Response getSellerProjects(String username,SecurityContext securityContext) throws NotFoundException;
+    public Response updateSellerProject(String username,UUID projectId,ProjectPOJO body,SecurityContext securityContext) throws NotFoundException;
+    public Response uploadFile(String username,UUID projectId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
 }

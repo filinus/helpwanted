@@ -4,9 +4,10 @@ import lombok.*;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @AllArgsConstructor
-@Embeddable @Getter @Setter @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @Setter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserProjectKey implements Serializable {
   @Column(name = "project_id", nullable = false, updatable = false, length = 36)
   private String projectId;

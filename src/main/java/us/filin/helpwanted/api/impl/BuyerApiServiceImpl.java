@@ -1,6 +1,5 @@
 package us.filin.helpwanted.api.impl;
 
-import us.filin.helpwanted.PersistenceListener;
 import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.jpa.BidRequest;
 import us.filin.helpwanted.jpa.BuyerProject;
@@ -8,33 +7,20 @@ import us.filin.helpwanted.jpa.Project;
 import us.filin.helpwanted.jpa.User;
 import us.filin.helpwanted.jpa.UserProjectKey;
 import us.filin.helpwanted.mapping.BidRequestMapper;
-import us.filin.helpwanted.pojo.*;
 
 import us.filin.helpwanted.pojo.BidRequestPOJO;
-import us.filin.helpwanted.pojo.ProjectPOJO;
 
 import java.util.List;
 import java.util.UUID;
 
 import us.filin.helpwanted.api.NotFoundException;
 
-
-import javax.persistence.EntityManager;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public class BuyerApiServiceImpl extends BuyerApiService {
-    EntityManager em = PersistenceListener.createEntityManager();
-    User buyer = null;
-    
-    private void setupBuyer(SecurityContext securityContext) {
-        String username = securityContext.getUserPrincipal().getName();
-    
-        buyer = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-          .setParameter("username", username)
-          .getSingleResult();
-    }
+public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiService {
+
     
     private Project getUserProject(UUID projectId) throws NotFoundException {
         Project project = em.createQuery(
@@ -45,11 +31,11 @@ public class BuyerApiServiceImpl extends BuyerApiService {
           "AND p.owner.id != :buyer_id",
           Project.class)
           .setParameter("project_id", projectId.toString().toUpperCase())
-          .setParameter("buyer_id", buyer.getId())
+          .setParameter("buyer_id", user.getId())
           .getSingleResult();
         
         if (project == null) {
-            throw new NotFoundException(404, "project "+projectId+" not found or is not available for buyer acrivity");
+            throw new NotFoundException(404, "project "+projectId+" not found or is not available for user acrivity");
         }
         return project;
     }
@@ -63,12 +49,12 @@ public class BuyerApiServiceImpl extends BuyerApiService {
         
         BidRequest bidRequest = BidRequestMapper.INSTANCE.toPeristent(body);
         
-        setupBuyer(securityContext);
+        setupCurrentUser(securityContext);
         
-        bidRequest.setBidder(buyer);
+        bidRequest.setUserId(user.getId());
         Project project = getUserProject(projectId);
 
-        bidRequest.setProject(project);
+        bidRequest.setProjectId(project.getId());
         
         em.getTransaction().begin();
         
@@ -77,19 +63,26 @@ public class BuyerApiServiceImpl extends BuyerApiService {
     }
     @Override
     public Response bookmarkBuyerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
-    
+        String projId = projectId.toString().toUpperCase();
+        
         User buyer = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
           .setParameter("username", username).getSingleResult();
-        Project project = em.find(Project.class, projectId.toString().toUpperCase());
+        Project project = em.find(Project.class, projId);
         
-        UserProjectKey userProjectKey = new UserProjectKey(buyer.getId(), projectId.toString().toUpperCase());
+        String buyerId = buyer.getId();
+        
         try {
             em.getTransaction().begin();
             
-            BuyerProject buyerProject = new BuyerProject(userProjectKey, false);
+            BuyerProject buyerProject = BuyerProject.builder()
+              .projectId(projectId.toString().toUpperCase())
+              .bidderId(buyerId)
+              .visible(false)
+              .build();
             em.persist(buyerProject);
             em.getTransaction().commit();
         } catch (Exception e) {
+            UserProjectKey userProjectKey = new UserProjectKey(buyerId, projId);
             em.find(BuyerProject.class, userProjectKey);
         }
         
