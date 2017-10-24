@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import us.filin.helpwanted.api.NotFoundException;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
@@ -23,7 +24,7 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
 
     
     private Project getUserProject(UUID projectId) throws NotFoundException {
-        Project project = em.createQuery(
+        Project project = em().createQuery(
           "SELECT p "+
           "FROM Project p " +
           "WHERE p.id = :project_id " +
@@ -56,7 +57,7 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
 
         bidRequest.setProjectId(project.getId());
         
-        em.getTransaction().begin();
+        em().getTransaction().begin();
         
         
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -65,25 +66,25 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
     public Response bookmarkBuyerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
         String projId = projectId.toString().toUpperCase();
         
-        User buyer = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+        User buyer = em().createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
           .setParameter("username", username).getSingleResult();
-        Project project = em.find(Project.class, projId);
+        Project project = em().find(Project.class, projId);
         
         String buyerId = buyer.getId();
         
         try {
-            em.getTransaction().begin();
+            em().getTransaction().begin();
             
             BuyerProject buyerProject = BuyerProject.builder()
               .projectId(projectId.toString().toUpperCase())
               .bidderId(buyerId)
               .visible(false)
               .build();
-            em.persist(buyerProject);
-            em.getTransaction().commit();
+            em().persist(buyerProject);
+            em().getTransaction().commit();
         } catch (Exception e) {
             UserProjectKey userProjectKey = new UserProjectKey(buyerId, projId);
-            em.find(BuyerProject.class, userProjectKey);
+            em().find(BuyerProject.class, userProjectKey);
         }
         
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "hghgjhgh")).build();

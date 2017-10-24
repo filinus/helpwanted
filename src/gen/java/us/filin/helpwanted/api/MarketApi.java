@@ -21,6 +21,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -35,11 +36,11 @@ import javax.validation.constraints.*;
 public class MarketApi  {
    private final MarketApiService delegate;
 
-   public MarketApi(@Context ServletConfig servletContext) {
+   public MarketApi(@Context ServletConfig servletConfig, @Context ServletContext servletContext) {
       MarketApiService delegate = null;
 
-      if (servletContext != null) {
-         String implClass = servletContext.getInitParameter("MarketApi.implementation");
+      if (servletConfig != null) {
+         String implClass = servletConfig.getInitParameter("MarketApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
                delegate = (MarketApiService) Class.forName(implClass).newInstance();
@@ -53,6 +54,7 @@ public class MarketApi  {
          delegate = MarketApiServiceFactory.getMarketApi();
       }
 
+      delegate.setServletContext(servletContext);
       this.delegate = delegate;
    }
 

@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
 {{#operations}}
-public interface {{classname}}Service {
+public interface {{classname}}Service extends ApiServiceInContext {
     {{#operation}}
     public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}},{{/allParams}}SecurityContext securityContext) throws NotFoundException;
     {{/operation}}

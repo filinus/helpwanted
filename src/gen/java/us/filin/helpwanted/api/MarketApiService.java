@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public interface MarketApiService {
+public interface MarketApiService extends ApiServiceInContext {
     public Response findProjectsByStatus( @NotNull List<String> status,SecurityContext securityContext) throws NotFoundException;
     public Response getProjectById(UUID projectId,SecurityContext securityContext) throws NotFoundException;
 }

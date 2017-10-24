@@ -1,6 +1,5 @@
 package us.filin.helpwanted.api.impl;
 
-import us.filin.helpwanted.PersistenceListener;
 import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.jpa.BidRequest;
 import us.filin.helpwanted.jpa.Project;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 import us.filin.helpwanted.api.NotFoundException;
 
-import javax.persistence.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
@@ -22,7 +20,7 @@ public class MarketApiServiceImpl extends AbstractApiService implements MarketAp
     @Override
     public Response findProjectsByStatus( @NotNull List<String> status, SecurityContext securityContext) throws NotFoundException {
         
-        List<Project> projects = em.createQuery("SELECT p FROM Project p WHERE p.visibilityStatus = :visibility ORDER BY P.updated DESC, P.id", Project.class)
+        List<Project> projects = em().createQuery("SELECT p FROM Project p WHERE p.visibilityStatus = :visibility ORDER BY P.updated DESC, P.id", Project.class)
           .setParameter("visibility", Project.VisibilityStatus.VISIBLE)
           .setMaxResults(1000)
           .getResultList();
@@ -35,13 +33,13 @@ public class MarketApiServiceImpl extends AbstractApiService implements MarketAp
     public Response getProjectById(UUID projectId, SecurityContext securityContext) throws NotFoundException {
 //TODO: could and should be done by single *QL request
         
-        Project project = em.createQuery("SELECT p FROM Project p WHERE p.id = :id AND p.visibilityStatus = :visibility", Project.class)
+        Project project = em().createQuery("SELECT p FROM Project p WHERE p.id = :id AND p.visibilityStatus = :visibility", Project.class)
           .setParameter("id", projectId.toString().toUpperCase())
           .setParameter("visibility", Project.VisibilityStatus.VISIBLE)
           .getSingleResult();
         
 //        BidRequest bidRequest =
-//          em.createQuery(
+//          em().createQuery(
 //            "SELECT min(b.price)" +
 //              "FROM BidRequest b " +
 //              "WHERE b.project = :project_id " +

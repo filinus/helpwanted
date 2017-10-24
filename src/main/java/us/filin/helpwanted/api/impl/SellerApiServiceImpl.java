@@ -1,6 +1,5 @@
 package us.filin.helpwanted.api.impl;
 
-import us.filin.helpwanted.PersistenceListener;
 import us.filin.helpwanted.api.*;
 import us.filin.helpwanted.jpa.Project;
 import us.filin.helpwanted.mapping.ProjectDetailMapper;
@@ -16,7 +15,6 @@ import java.util.UUID;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
-import javax.persistence.EntityManager;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -33,7 +31,7 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
     }
     @Override
     public Response deleteSellerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
-        int result = em.createQuery("DELETE FROM Project p WHERE p.id = :project_id AND p.owner.username = :username")
+        int result = em().createQuery("DELETE FROM Project p WHERE p.id = :project_id AND p.owner.username = :username")
             .setParameter("project_id", projectId.toString().toUpperCase())
             .setParameter("username", username)
             .executeUpdate();
@@ -50,7 +48,7 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
     }
     @Override
     public Response getSellerProjects(String username, SecurityContext securityContext) throws NotFoundException {
-        List<Project> projects = em.createQuery("SELECT p FROM Project p WHERE p.owner.username = :username ORDER BY P.updated DESC, P.id", Project.class)
+        List<Project> projects = em().createQuery("SELECT p FROM Project p WHERE p.owner.username = :username ORDER BY P.updated DESC, P.id", Project.class)
           .setParameter("username", username)
           .setMaxResults(1000)
           .getResultList();

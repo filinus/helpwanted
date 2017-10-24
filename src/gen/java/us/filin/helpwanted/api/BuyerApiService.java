@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public interface BuyerApiService {
+public interface BuyerApiService extends ApiServiceInContext {
     public Response bidBuyerProject(String username,UUID projectId,BidRequestPOJO body,SecurityContext securityContext) throws NotFoundException;
     public Response bookmarkBuyerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;
     public Response deleteBuyerProjectBookmark(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;

@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public interface SellerApiService {
+public interface SellerApiService extends ApiServiceInContext {
     public Response addSellerProject(String username,ProjectPOJO body,SecurityContext securityContext) throws NotFoundException;
     public Response deleteProjectImage(String username,UUID projectId,String imageId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
     public Response deleteSellerProject(String username,UUID projectId,SecurityContext securityContext) throws NotFoundException;

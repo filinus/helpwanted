@@ -16,18 +16,21 @@ import java.util.Date;
 @WebListener
 public class PersistenceListener implements ServletContextListener {
   
-  private static EntityManagerFactory entityManagerFactory;
+  private EntityManagerFactory entityManagerFactory;
   
   public void contextInitialized(ServletContextEvent sce) {
     ServletContext context = sce.getServletContext();
     entityManagerFactory = Persistence.createEntityManagerFactory("the-unit");
-    
+  
     generateSampleData();
+
+    context.setAttribute("entityManagerFactory", entityManagerFactory);
   }
   
   
   private void generateSampleData() {
-    EntityManager em = createEntityManager();
+    EntityManager em = entityManagerFactory.createEntityManager();
+    em.setFlushMode(FlushModeType.AUTO);
     em.getTransaction().begin();
   
     final int MS_IN_DAY = 1000*60*60*24;
@@ -82,15 +85,5 @@ public class PersistenceListener implements ServletContextListener {
   
   public void contextDestroyed(ServletContextEvent sce) {
     entityManagerFactory.close();
-  }
-  
-  public static EntityManager createEntityManager() {
-    if (entityManagerFactory == null) {
-      throw new IllegalStateException("Context is not initialized yet.");
-    }
-    
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
-    entityManager.setFlushMode(FlushModeType.AUTO);
-    return entityManager;
   }
 }

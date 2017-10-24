@@ -21,6 +21,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -35,11 +36,11 @@ import javax.validation.constraints.*;
 public class BuyerApi  {
    private final BuyerApiService delegate;
 
-   public BuyerApi(@Context ServletConfig servletContext) {
+   public BuyerApi(@Context ServletConfig servletConfig, @Context ServletContext servletContext) {
       BuyerApiService delegate = null;
 
-      if (servletContext != null) {
-         String implClass = servletContext.getInitParameter("BuyerApi.implementation");
+      if (servletConfig != null) {
+         String implClass = servletConfig.getInitParameter("BuyerApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
                delegate = (BuyerApiService) Class.forName(implClass).newInstance();
@@ -53,6 +54,7 @@ public class BuyerApi  {
          delegate = BuyerApiServiceFactory.getBuyerApi();
       }
 
+      delegate.setServletContext(servletContext);
       this.delegate = delegate;
    }
 
