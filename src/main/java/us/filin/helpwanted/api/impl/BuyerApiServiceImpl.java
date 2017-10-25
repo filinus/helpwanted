@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import us.filin.helpwanted.api.NotFoundException;
 
-import javax.servlet.ServletContext;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
@@ -58,7 +57,28 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
         bidRequest.setProjectId(project.getId());
         
         em().getTransaction().begin();
+    
+        int updated = em().createQuery(
+          "UPDATE Project p " +
+            "SET p.bidRequest = :bidRequest " +
+            "WHERE p.id = :requestId " +
+            "AND p.bidRequest != :bidRequest " + // prevent write written
+            "AND p.visibilityStatus = Project.VisibilityStatus.VISIBLE " +
+            "AND p.owner.id != :bidderId " + // do not bid on own projects
+            "AND :price < (SELECT min(price) FROM BidRequest WHERE projectId = :projectId )"
+          )
+          .setParameter("bidRequest", bidRequest.getId())
+          .setParameter("projectId", project.getId())
+          .setParameter("bidderId", user.getId())
+          .executeUpdate();
+        if (updated == 0 ) {
+            Response.status(Response.Status.CONFLICT)
+              .entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "bid declined or not won"))
+              .build();
+        }
         
+    
+        em().getTransaction().commit();
         
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
