@@ -1,8 +1,8 @@
 package us.filin.helpwanted.api.impl;
 
 import us.filin.helpwanted.api.*;
-import us.filin.helpwanted.jpa.Project;
-import us.filin.helpwanted.mapping.ProjectDetailMapper;
+import us.filin.helpwanted.jpa.*;
+import us.filin.helpwanted.mapping.*;
 import us.filin.helpwanted.pojo.*;
 
 import us.filin.helpwanted.pojo.ProjectPOJO;
@@ -50,7 +50,7 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
     public Response getSellerProjects(String username, SecurityContext securityContext) throws NotFoundException {
         List<Project> projects = em().createQuery("SELECT p FROM Project p WHERE p.owner.username = :username ORDER BY P.updated DESC, P.id", Project.class)
           .setParameter("username", username)
-          .setMaxResults(1000)
+          .setMaxResults(1000) // TODO pagination
           .getResultList();
         List<ProjectDetailPOJO> projectJsons = ProjectDetailMapper.INSTANCE.toPOJOs(projects);
     

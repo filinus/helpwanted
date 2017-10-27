@@ -1,11 +1,7 @@
 package us.filin.helpwanted.api.impl;
 
 import us.filin.helpwanted.api.*;
-import us.filin.helpwanted.jpa.BidRequest;
-import us.filin.helpwanted.jpa.BuyerProject;
-import us.filin.helpwanted.jpa.Project;
-import us.filin.helpwanted.jpa.User;
-import us.filin.helpwanted.jpa.UserProjectKey;
+import us.filin.helpwanted.jpa.*;
 import us.filin.helpwanted.mapping.BidRequestMapper;
 
 import us.filin.helpwanted.pojo.BidRequestPOJO;
@@ -22,25 +18,6 @@ import javax.validation.constraints.*;
 public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiService {
 
     
-    private Project getUserProject(UUID projectId) throws NotFoundException {
-        Project project = em().createQuery(
-          "SELECT p "+
-          "FROM Project p " +
-          "WHERE p.id = :project_id " +
-          "AND p.visibilityStatus = Project.VisibilityStatus.VISIBLE " +
-          "AND p.owner.id != :buyer_id",
-          Project.class)
-          .setParameter("project_id", projectId.toString().toUpperCase())
-          .setParameter("buyer_id", user.getId())
-          .getSingleResult();
-        
-        if (project == null) {
-            throw new NotFoundException(404, "project "+projectId+" not found or is not available for user acrivity");
-        }
-        return project;
-    }
-    
-    
     @Override
     public Response bidBuyerProject(String username, UUID projectId, BidRequestPOJO body, SecurityContext securityContext) throws NotFoundException {
         if (body == null) {
@@ -52,19 +29,23 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
         setupCurrentUser(securityContext);
         
         bidRequest.setUserId(user.getId());
-        Project project = getUserProject(projectId);
+        Project project = getNotUserProject(projectId);
+        
+        if (bidRequest.getPrice().compareTo(project.getBidRequest().getPrice()) > 1) {
+            return Response.status(Response.Status.ACCEPTED)
+              .entity(new ApiResponseMessage(ApiResponseMessage.OK, "bid considered but don't win"))
+              .build();
+        }
 
         bidRequest.setProjectId(project.getId());
         
-        em().getTransaction().begin();
-    
         int updated = em().createQuery(
           "UPDATE Project p " +
             "SET p.bidRequest = :bidRequest " +
             "WHERE p.id = :requestId " +
             "AND p.bidRequest != :bidRequest " + // prevent write written
             "AND p.visibilityStatus = Project.VisibilityStatus.VISIBLE " +
-            "AND p.owner.id != :bidderId " + // do not bid on own projects
+            "AND p.owner.id != :bidderId " + // do not bid on own projects anyway
             "AND :price < (SELECT min(price) FROM BidRequest WHERE projectId = :projectId )"
           )
           .setParameter("bidRequest", bidRequest.getId())
@@ -75,22 +56,19 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
             Response.status(Response.Status.CONFLICT)
               .entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "bid declined or not won"))
               .build();
+        } else if (updated == 1) {
+            return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "your bid won")).build();
         }
-        
-    
-        em().getTransaction().commit();
-        
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        return Response.status(Response.Status.ACCEPTED).entity(new ApiResponseMessage(ApiResponseMessage.OK, "bid entered for processing")).build();
     }
+    
     @Override
     public Response bookmarkBuyerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
-        String projId = projectId.toString().toUpperCase();
+        setupCurrentUser(securityContext);
         
-        User buyer = em().createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-          .setParameter("username", username).getSingleResult();
-        Project project = em().find(Project.class, projId);
+        Project project = getProject(projectId);
         
-        String buyerId = buyer.getId();
+        String buyerId = user.getId();
         
         try {
             em().getTransaction().begin();
@@ -103,7 +81,7 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
             em().persist(buyerProject);
             em().getTransaction().commit();
         } catch (Exception e) {
-            UserProjectKey userProjectKey = new UserProjectKey(buyerId, projId);
+            UserProjectKey userProjectKey = new UserProjectKey(buyerId, project.getId());
             em().find(BuyerProject.class, userProjectKey);
         }
         

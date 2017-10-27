@@ -1,13 +1,14 @@
 package us.filin.helpwanted.api.impl;
 
-import us.filin.helpwanted.api.ApiServiceInContext;
-import us.filin.helpwanted.jpa.User;
+import us.filin.helpwanted.api.*;
+import us.filin.helpwanted.jpa.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
+import java.util.UUID;
 
 public abstract class AbstractApiService implements ApiServiceInContext {
   @Context
@@ -32,9 +33,42 @@ public abstract class AbstractApiService implements ApiServiceInContext {
   
   protected void setupCurrentUser(SecurityContext securityContext) {
     String username = securityContext.getUserPrincipal().getName();
-    
-    user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+    user = findUser(username);
+  }
+  
+  protected User findUser(String username) {
+    User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
       .setParameter("username", username)
       .getSingleResult();
+    return user;
   }
+  
+  
+  protected Project getProject(UUID projectId) throws NotFoundException {
+    Project project = em().createQuery(
+      "SELECT p "+
+        "FROM Project p " +
+        "WHERE p.id = :project_id " +
+        "AND p.visibilityStatus = Project.VisibilityStatus.VISIBLE "
+      ,
+      Project.class)
+      .setParameter("project_id", projectId.toString().toUpperCase())
+      .getSingleResult();
+    
+    if (project == null) {
+      throw new NotFoundException(404, "project "+projectId+" not found or is not available");
+    }
+    return project;
+  }
+  
+  protected Project getNotUserProject(UUID projectId) throws NotFoundException {
+    Project project = getProject(projectId);
+    
+    if (project.getOwner().getId().equals(user.getId())) {
+      throw new NotFoundException(404, "you must not bid on own projects");
+    }
+    return project;
+  }
+  
+  
 }
