@@ -11,85 +11,87 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
+import java.util.UUID;
 import javax.validation.constraints.*;
 
 /**
- * ApiResponseModel
+ * ProjectPOJO
  */
 
-public class ApiResponseModel  implements Serializable {
-  @JsonProperty("code")
-  private Integer code = null;
+public class ProjectPOJO   {
+  private static final long serialVersionUID = 42L;
 
-  @JsonProperty("type")
-  private String type = null;
+  @JsonProperty("id")
+  private UUID id = null;
 
-  @JsonProperty("message")
-  private String message = null;
+  @JsonProperty("title")
+  private String title = null;
 
-  public ApiResponseModel code(Integer code) {
-    this.code = code;
+  @JsonProperty("description")
+  private String description = null;
+
+  public ProjectPOJO id(UUID id) {
+    this.id = id;
     return this;
   }
 
   /**
-   * Get code
-   * @return code
+   * Get id
+   * @return id
    **/
-  @JsonProperty("code")
+  @JsonProperty("id")
   @ApiModelProperty(value = "")
-  public Integer getCode() {
-    return code;
+  public UUID getId() {
+    return id;
   }
 
-  public void setCode(Integer code) {
-    this.code = code;
+  public void setId(UUID id) {
+    this.id = id;
   }
 
-  public ApiResponseModel type(String type) {
-    this.type = type;
+  public ProjectPOJO title(String title) {
+    this.title = title;
     return this;
   }
 
   /**
-   * Get type
-   * @return type
+   * Get title
+   * @return title
    **/
-  @JsonProperty("type")
-  @ApiModelProperty(value = "")
-  public String getType() {
-    return type;
+  @JsonProperty("title")
+  @ApiModelProperty(example = "translate text from English to Spanish", value = "")
+  public String getTitle() {
+    return title;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
-  public ApiResponseModel message(String message) {
-    this.message = message;
+  public ProjectPOJO description(String description) {
+    this.description = description;
     return this;
   }
 
   /**
-   * Get message
-   * @return message
+   * Get description
+   * @return description
    **/
-  @JsonProperty("message")
-  @ApiModelProperty(value = "")
-  public String getMessage() {
-    return message;
+  @JsonProperty("description")
+  @ApiModelProperty(example = "big big description", value = "")
+  public String getDescription() {
+    return description;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
 
@@ -101,26 +103,26 @@ public class ApiResponseModel  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiResponseModel _apiResponse = (ApiResponseModel) o;
-    return Objects.equals(this.code, _apiResponse.code) &&
-        Objects.equals(this.type, _apiResponse.type) &&
-        Objects.equals(this.message, _apiResponse.message);
+    ProjectPOJO project = (ProjectPOJO) o;
+    return Objects.equals(this.id, project.id) &&
+        Objects.equals(this.title, project.title) &&
+        Objects.equals(this.description, project.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, type, message);
+    return Objects.hash(id, title, description);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiResponseModel {\n");
+    sb.append("class ProjectPOJO {\n");
     
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

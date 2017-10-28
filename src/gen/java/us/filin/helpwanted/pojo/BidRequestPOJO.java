@@ -11,7 +11,7 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,16 +20,21 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import java.io.Serializable;
+import java.util.UUID;
 import javax.validation.constraints.*;
 
 /**
- * BidModel
+ * BidRequestPOJO
  */
 
-public class BidModel  implements Serializable {
-  @JsonProperty("id")
-  private Long id = null;
+public class BidRequestPOJO   {
+  private static final long serialVersionUID = 42L;
+
+  @JsonProperty("project")
+  private UUID project = null;
+
+  @JsonProperty("bidder")
+  private UUID bidder = null;
 
   @JsonProperty("quantity")
   private Integer quantity = 1;
@@ -71,26 +76,27 @@ public class BidModel  implements Serializable {
   @JsonProperty("pricePerUnit")
   private BigDecimal pricePerUnit = null;
 
-  public BidModel id(Long id) {
-    this.id = id;
-    return this;
+  /**
+   * Get project
+   * @return project
+   **/
+  @JsonProperty("project")
+  @ApiModelProperty(value = "")
+  public UUID getProject() {
+    return project;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get bidder
+   * @return bidder
    **/
-  @JsonProperty("id")
+  @JsonProperty("bidder")
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public UUID getBidder() {
+    return bidder;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public BidModel quantity(Integer quantity) {
+  public BidRequestPOJO quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -109,7 +115,7 @@ public class BidModel  implements Serializable {
     this.quantity = quantity;
   }
 
-  public BidModel unit(UnitEnum unit) {
+  public BidRequestPOJO unit(UnitEnum unit) {
     this.unit = unit;
     return this;
   }
@@ -128,7 +134,7 @@ public class BidModel  implements Serializable {
     this.unit = unit;
   }
 
-  public BidModel pricePerUnit(BigDecimal pricePerUnit) {
+  public BidRequestPOJO pricePerUnit(BigDecimal pricePerUnit) {
     this.pricePerUnit = pricePerUnit;
     return this;
   }
@@ -138,7 +144,7 @@ public class BidModel  implements Serializable {
    * @return pricePerUnit
    **/
   @JsonProperty("pricePerUnit")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "7.38", value = "")
   public BigDecimal getPricePerUnit() {
     return pricePerUnit;
   }
@@ -156,25 +162,27 @@ public class BidModel  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BidModel bid = (BidModel) o;
-    return Objects.equals(this.id, bid.id) &&
-        Objects.equals(this.quantity, bid.quantity) &&
-        Objects.equals(this.unit, bid.unit) &&
-        Objects.equals(this.pricePerUnit, bid.pricePerUnit);
+    BidRequestPOJO bidRequest = (BidRequestPOJO) o;
+    return Objects.equals(this.project, bidRequest.project) &&
+        Objects.equals(this.bidder, bidRequest.bidder) &&
+        Objects.equals(this.quantity, bidRequest.quantity) &&
+        Objects.equals(this.unit, bidRequest.unit) &&
+        Objects.equals(this.pricePerUnit, bidRequest.pricePerUnit);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, quantity, unit, pricePerUnit);
+    return Objects.hash(project, bidder, quantity, unit, pricePerUnit);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BidModel {\n");
+    sb.append("class BidRequestPOJO {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    project: ").append(toIndentedString(project)).append("\n");
+    sb.append("    bidder: ").append(toIndentedString(bidder)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    unit: ").append(toIndentedString(unit)).append("\n");
     sb.append("    pricePerUnit: ").append(toIndentedString(pricePerUnit)).append("\n");

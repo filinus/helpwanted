@@ -11,7 +11,7 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,21 +19,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
+import java.util.UUID;
 import javax.validation.constraints.*;
 
 /**
- * ProjectModel
+ * ProjectDetailPOJO
  */
 
-public class ProjectModel  implements Serializable {
-  @JsonProperty("id")
-  private Long id = null;
+public class ProjectDetailPOJO   {
+  private static final long serialVersionUID = 42L;
 
-  @JsonProperty("name")
-  private String name = null;
+  @JsonProperty("id")
+  private UUID id = null;
+
+  @JsonProperty("title")
+  private String title = null;
 
   @JsonProperty("description")
   private String description = null;
@@ -42,20 +45,24 @@ public class ProjectModel  implements Serializable {
   private List<String> files = null;
 
   /**
-   * Project status
+   * Project Bidding Status
    */
-  public enum StatusEnum {
-    PENDING("pending"),
+  public enum BiddingStatusEnum {
+    WAITING_START("waiting_start"),
+    
+    WAITING_BIDS("waiting_bids"),
     
     BIDDING("bidding"),
     
-    SOLD("sold"),
+    PENDING("pending"),
     
-    FINISHED("finished");
+    WINNER("winner"),
+    
+    NO_WINNER("no_winner");
 
     private String value;
 
-    StatusEnum(String value) {
+    BiddingStatusEnum(String value) {
       this.value = value;
     }
 
@@ -66,8 +73,8 @@ public class ProjectModel  implements Serializable {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String text) {
-      for (StatusEnum b : StatusEnum.values()) {
+    public static BiddingStatusEnum fromValue(String text) {
+      for (BiddingStatusEnum b : BiddingStatusEnum.values()) {
         if (String.valueOf(b.value).equals(text)) {
           return b;
         }
@@ -76,10 +83,13 @@ public class ProjectModel  implements Serializable {
     }
   }
 
-  @JsonProperty("status")
-  private StatusEnum status = null;
+  @JsonProperty("biddingStatus")
+  private BiddingStatusEnum biddingStatus = null;
 
-  public ProjectModel id(Long id) {
+  @JsonProperty("winningPrice")
+  private BigDecimal winningPrice = null;
+
+  public ProjectDetailPOJO id(UUID id) {
     this.id = id;
     return this;
   }
@@ -90,34 +100,34 @@ public class ProjectModel  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
-  public Long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
-  public ProjectModel name(String name) {
-    this.name = name;
+  public ProjectDetailPOJO title(String title) {
+    this.title = title;
     return this;
   }
 
   /**
-   * Get name
-   * @return name
+   * Get title
+   * @return title
    **/
-  @JsonProperty("name")
-  @ApiModelProperty(example = "doggie", value = "")
-  public String getName() {
-    return name;
+  @JsonProperty("title")
+  @ApiModelProperty(example = "translate text from English to Spanish", value = "")
+  public String getTitle() {
+    return title;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
-  public ProjectModel description(String description) {
+  public ProjectDetailPOJO description(String description) {
     this.description = description;
     return this;
   }
@@ -136,12 +146,12 @@ public class ProjectModel  implements Serializable {
     this.description = description;
   }
 
-  public ProjectModel files(List<String> files) {
+  public ProjectDetailPOJO files(List<String> files) {
     this.files = files;
     return this;
   }
 
-  public ProjectModel addFilesItem(String filesItem) {
+  public ProjectDetailPOJO addFilesItem(String filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<String>();
     }
@@ -163,23 +173,42 @@ public class ProjectModel  implements Serializable {
     this.files = files;
   }
 
-  public ProjectModel status(StatusEnum status) {
-    this.status = status;
+  public ProjectDetailPOJO biddingStatus(BiddingStatusEnum biddingStatus) {
+    this.biddingStatus = biddingStatus;
     return this;
   }
 
   /**
-   * Project status
-   * @return status
+   * Project Bidding Status
+   * @return biddingStatus
    **/
-  @JsonProperty("status")
-  @ApiModelProperty(value = "Project status")
-  public StatusEnum getStatus() {
-    return status;
+  @JsonProperty("biddingStatus")
+  @ApiModelProperty(value = "Project Bidding Status")
+  public BiddingStatusEnum getBiddingStatus() {
+    return biddingStatus;
   }
 
-  public void setStatus(StatusEnum status) {
-    this.status = status;
+  public void setBiddingStatus(BiddingStatusEnum biddingStatus) {
+    this.biddingStatus = biddingStatus;
+  }
+
+  public ProjectDetailPOJO winningPrice(BigDecimal winningPrice) {
+    this.winningPrice = winningPrice;
+    return this;
+  }
+
+  /**
+   * Get winningPrice
+   * @return winningPrice
+   **/
+  @JsonProperty("winningPrice")
+  @ApiModelProperty(example = "17.95", value = "")
+  public BigDecimal getWinningPrice() {
+    return winningPrice;
+  }
+
+  public void setWinningPrice(BigDecimal winningPrice) {
+    this.winningPrice = winningPrice;
   }
 
 
@@ -191,30 +220,32 @@ public class ProjectModel  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ProjectModel project = (ProjectModel) o;
-    return Objects.equals(this.id, project.id) &&
-        Objects.equals(this.name, project.name) &&
-        Objects.equals(this.description, project.description) &&
-        Objects.equals(this.files, project.files) &&
-        Objects.equals(this.status, project.status);
+    ProjectDetailPOJO projectDetail = (ProjectDetailPOJO) o;
+    return Objects.equals(this.id, projectDetail.id) &&
+        Objects.equals(this.title, projectDetail.title) &&
+        Objects.equals(this.description, projectDetail.description) &&
+        Objects.equals(this.files, projectDetail.files) &&
+        Objects.equals(this.biddingStatus, projectDetail.biddingStatus) &&
+        Objects.equals(this.winningPrice, projectDetail.winningPrice);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, files, status);
+    return Objects.hash(id, title, description, files, biddingStatus, winningPrice);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ProjectModel {\n");
+    sb.append("class ProjectDetailPOJO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    biddingStatus: ").append(toIndentedString(biddingStatus)).append("\n");
+    sb.append("    winningPrice: ").append(toIndentedString(winningPrice)).append("\n");
     sb.append("}");
     return sb.toString();
   }

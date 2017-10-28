@@ -1,15 +1,16 @@
 package us.filin.helpwanted.api;
 
-import us.filin.helpwanted.model.*;
+import us.filin.helpwanted.pojo.*;
 import us.filin.helpwanted.api.SellerApiService;
 import us.filin.helpwanted.api.factories.SellerApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import us.filin.helpwanted.model.ApiResponseModel;
+import us.filin.helpwanted.pojo.ApiResponsePOJO;
 import java.io.File;
-import us.filin.helpwanted.model.ProjectModel;
+import us.filin.helpwanted.pojo.ProjectPOJO;
+import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -35,11 +37,11 @@ import javax.validation.constraints.*;
 public class SellerApi  {
    private final SellerApiService delegate;
 
-   public SellerApi(@Context ServletConfig servletContext) {
+   public SellerApi(@Context ServletConfig servletConfig, @Context ServletContext servletContext) {
       SellerApiService delegate = null;
 
-      if (servletContext != null) {
-         String implClass = servletContext.getInitParameter("SellerApi.implementation");
+      if (servletConfig != null) {
+         String implClass = servletConfig.getInitParameter("SellerApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
                delegate = (SellerApiService) Class.forName(implClass).newInstance();
@@ -53,41 +55,40 @@ public class SellerApi  {
          delegate = SellerApiServiceFactory.getSellerApi();
       }
 
+      delegate.setServletContext(servletContext);
       this.delegate = delegate;
    }
 
     @POST
-    @Path("/{username}/projects/")
+    @Path("/projects/")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Crteates a new project description", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
     }, tags={ "seller", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    public Response addSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "Project description object that needs to be added" ,required=true) ProjectModel body
+    public Response addSellerProject(@ApiParam(value = "Project description object that needs to be added" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.addSellerProject(username,body,securityContext);
+        return delegate.addSellerProject(body,securityContext);
     }
     @DELETE
-    @Path("/{username}/projects/{projectId}/images/{imageId}")
+    @Path("/projects/{projectId}/images/{imageId}")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "delete an image", notes = "", response = ApiResponseModel.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+    @io.swagger.annotations.ApiOperation(value = "delete an image", notes = "", response = ApiResponsePOJO.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
     }, tags={ "seller", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponseModel.class) })
-    public Response deleteProjectImage(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of project containg image",required=true) @PathParam("projectId") Long projectId
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
+    public Response deleteProjectImage(@ApiParam(value = "ID of project containg image",required=true) @PathParam("projectId") UUID projectId
 ,@ApiParam(value = "image ID",required=true) @PathParam("imageId") String imageId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
@@ -95,14 +96,14 @@ public class SellerApi  {
             @FormDataParam("file") FormDataContentDisposition fileDetail
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.deleteProjectImage(username,projectId,imageId,additionalMetadata,fileInputStream, fileDetail,securityContext);
+        return delegate.deleteProjectImage(projectId,imageId,additionalMetadata,fileInputStream, fileDetail,securityContext);
     }
     @DELETE
-    @Path("/{username}/projects/{projectId}")
+    @Path("/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Delete an existing seller's project", notes = "Delete an existing seller's project if project was not published", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+    @io.swagger.annotations.ApiOperation(value = "Delete an existing seller's project", notes = "Delete an existing seller's project if project hidden or finished without bids", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -111,35 +112,33 @@ public class SellerApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found", response = Void.class) })
-    public Response deleteSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "A seller's existing project",required=true) @PathParam("projectId") String projectId
+    public Response deleteSellerProject(@ApiParam(value = "A seller's existing project",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.deleteSellerProject(username,projectId,securityContext);
+        return delegate.deleteSellerProject(projectId,securityContext);
     }
     @GET
-    @Path("/{username}/projects/")
+    @Path("/projects/")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Seller's projects", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
     }, tags={ "seller", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "TODO", response = Void.class) })
-    public Response getSellerProjects(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
-,@Context SecurityContext securityContext)
+    public Response getSellerProjects(@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getSellerProjects(username,securityContext);
+        return delegate.getSellerProjects(securityContext);
     }
     @PUT
-    @Path("/{username}/projects/{projectId}")
+    @Path("/projects/{projectId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Update an existing project description", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
@@ -150,33 +149,31 @@ public class SellerApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    public Response updateSellerProject(@ApiParam(value = "The seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "A seller's existing project ",required=true) @PathParam("projectId") String projectId
-,@ApiParam(value = "Project object that needs to be added to the store" ,required=true) ProjectModel body
+    public Response updateSellerProject(@ApiParam(value = "A seller's existing project ",required=true) @PathParam("projectId") UUID projectId
+,@ApiParam(value = "Project description that needs to be updated" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.updateSellerProject(username,projectId,body,securityContext);
+        return delegate.updateSellerProject(projectId,body,securityContext);
     }
     @POST
-    @Path("/{username}/projects/{projectId}/images")
+    @Path("/projects/{projectId}/images")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ApiResponseModel.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ApiResponsePOJO.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "helpwanted_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:projects", description = "modify projects in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "bid:projects", description = "bookmark projects and bid")
         })
     }, tags={ "seller", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponseModel.class) })
-    public Response uploadFile(@ApiParam(value = "Seller's username",required=true) @PathParam("username") String username
-,@ApiParam(value = "ID of pet to update",required=true) @PathParam("projectId") Long projectId
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponsePOJO.class) })
+    public Response uploadFile(@ApiParam(value = "ID of project to update",required=true) @PathParam("projectId") UUID projectId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
             @FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFile(username,projectId,additionalMetadata,fileInputStream, fileDetail,securityContext);
+        return delegate.uploadFile(projectId,additionalMetadata,fileInputStream, fileDetail,securityContext);
     }
 }

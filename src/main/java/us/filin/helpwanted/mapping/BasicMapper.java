@@ -1,22 +1,35 @@
 package us.filin.helpwanted.mapping;
 
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import us.filin.helpwanted.jpa.Persistent;
+import us.filin.helpwanted.jpa.Identified;
+import us.filin.helpwanted.jpa.Timestamped;
 
 import java.util.List;
+import java.util.UUID;
 
-interface BasicMapper<Persitent extends Persistent, Model> {
-
-  @Mappings({})
-  Model toModel(Persitent persitent);
+public abstract class BasicMapper<Persitent extends Timestamped, Pojo> {
 
   @Mappings({})
-  Persitent toPeristent(Model model);
+  public abstract Pojo toPOJO(Persitent persitent);
 
   @Mappings({})
-  List<Model> toModels(List<Persitent> persitentEntities);
+  public abstract Persitent toPeristent(Pojo pojo);
 
   @Mappings({})
-  List<Persitent> toPersinents(List<Model> models);
+  public abstract List<Pojo> toPOJOs(List<Persitent> persitentEntities);
 
+  @Mappings({})
+  public abstract List<Persitent> toPersistents(List<Pojo> pojos);
+  
+  @Mapping(source = "id", target = "id", resultType = UUID.class)
+  public UUID toUUID(String value) {
+    return UUID.fromString(value);
+  }
+  
+  @Mapping(source = "id", target = "id", resultType = String.class)
+  public String toString(UUID value) {
+    return value.toString().toUpperCase();
+  }
+  
 }

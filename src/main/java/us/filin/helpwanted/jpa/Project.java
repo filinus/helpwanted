@@ -1,30 +1,78 @@
 package us.filin.helpwanted.jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.*;
 
-@Entity
-public class Project implements Persistent {
+import javax.annotation.PostConstruct;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.UUID;
+
+@Builder @AllArgsConstructor
+@Entity @Getter @Setter @NoArgsConstructor
+@Table(name = "projects",
+  indexes = {
+    @Index(name = "time_desc", columnList = "created DESC, id"),
+    @Index(name = "visibility_status", columnList = "visibilityStatus")
+  }
+)
+public class Project extends Identified {
   
-  @Id @GeneratedValue
-  private Long id;
+  @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "owner_id", nullable = false, updatable = false)
+  private User owner;
+  
+  @OneToOne(optional = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  @JoinColumn(name = "bid_id", nullable = true, updatable = true)
+  private BidRequest bidRequest;
+  
+  private String title;
   
   private String description;
   
-  public Long getId() {
-    return id;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "start", nullable = false)
+  private Date start;
+  
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "finish", nullable = false)
+  private Date finish;
+  
+  public enum VisibilityStatus {
+    HIDDEN,
+    VISIBLE,
+    CLOSED_MODERATOR
   }
   
-  public void setId(Long id) {
-    this.id = id;
+  public enum BiddingStatus {
+    WAITING_START,
+    WAITING_BIDS,
+    BIDDING,
+    PENDING,
+    WINNER,
+    NO_WINNER
   }
   
-  public String getDescription() {
-    return description;
+  @Enumerated(EnumType.STRING) // I want to make it obvious
+  @Column(name = "visibility_status", nullable = false, updatable = true)
+  private VisibilityStatus visibilityStatus;
+  
+  @Transient
+  private BiddingStatus biddingStatus;
+  
+  @PostConstruct
+  @PostLoad
+  @PostUpdate
+  public void updateBiddingStatus() {
+    Date now = new Date();
+    if (now.before(start)) {
+      biddingStatus = BiddingStatus.WAITING_START;
+    } else if (now.before(finish)) {
+      biddingStatus = (bidRequest == null) ? BiddingStatus.WAITING_BIDS : BiddingStatus.BIDDING;
+    } else if (now.before(new Date(finish.getTime()+60*1000))) {
+      biddingStatus = BiddingStatus.PENDING;
+    } else {
+      biddingStatus = (bidRequest == null) ? BiddingStatus.NO_WINNER : BiddingStatus.WINNER;
+    }
   }
   
-  public void setDescription(String description) {
-    this.description = description;
-  }
 }

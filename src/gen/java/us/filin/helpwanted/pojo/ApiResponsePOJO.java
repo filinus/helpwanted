@@ -11,41 +11,86 @@
  */
 
 
-package us.filin.helpwanted.model;
+package us.filin.helpwanted.pojo;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * ParticipatedProjectModel
+ * ApiResponsePOJO
  */
 
-public class ParticipatedProjectModel  implements Serializable {
-  @JsonProperty("id")
-  private Long id = null;
+public class ApiResponsePOJO   {
+  private static final long serialVersionUID = 42L;
 
-  public ParticipatedProjectModel id(Long id) {
-    this.id = id;
+  @JsonProperty("code")
+  private Integer code = null;
+
+  @JsonProperty("type")
+  private String type = null;
+
+  @JsonProperty("message")
+  private String message = null;
+
+  public ApiResponsePOJO code(Integer code) {
+    this.code = code;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get code
+   * @return code
    **/
-  @JsonProperty("id")
+  @JsonProperty("code")
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Integer getCode() {
+    return code;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setCode(Integer code) {
+    this.code = code;
+  }
+
+  public ApiResponsePOJO type(String type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+   **/
+  @JsonProperty("type")
+  @ApiModelProperty(value = "")
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public ApiResponsePOJO message(String message) {
+    this.message = message;
+    return this;
+  }
+
+  /**
+   * Get message
+   * @return message
+   **/
+  @JsonProperty("message")
+  @ApiModelProperty(value = "")
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
   }
 
 
@@ -57,22 +102,26 @@ public class ParticipatedProjectModel  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ParticipatedProjectModel participatedProject = (ParticipatedProjectModel) o;
-    return Objects.equals(this.id, participatedProject.id);
+    ApiResponsePOJO _apiResponse = (ApiResponsePOJO) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(code, type, message);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ParticipatedProjectModel {\n");
+    sb.append("class ApiResponsePOJO {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }
