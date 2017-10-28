@@ -27,7 +27,7 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
     @Override
     public Response deleteProjectImage(UUID projectId, String imageId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Hypothtic feature, not implemented")).build();
     }
     @Override
     public Response deleteSellerProject(UUID projectId, SecurityContext securityContext) throws NotFoundException {
@@ -52,7 +52,13 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
     public Response getSellerProjects(SecurityContext securityContext) throws NotFoundException {
         setupCurrentUser(securityContext);
         
-        List<Project> projects = em().createQuery("SELECT Project FROM Project p WHERE p.owner.id = :user_id ORDER BY p.updated DESC, p.id", Project.class)
+        List<Project> projects = em().createQuery(
+          "SELECT p "+
+          "FROM Project p "+
+          "LEFT JOIN FETCH BidRequest b " +
+          "WHERE p.owner.id = :user_id " +
+          "ORDER BY p.updated DESC, p.id",
+          Project.class)
           .setParameter("user_id", user.getId())
           .setMaxResults(1000) // TODO pagination
           .getResultList();
@@ -68,6 +74,6 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
     
     @Override
     public Response uploadFile(UUID projectId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Hypothtic feature, not implemented")).build();
     }
 }

@@ -59,7 +59,7 @@ public class Project extends Identified {
   @Transient
   private BiddingStatus biddingStatus;
   
- /* @PostConstruct
+  @PostConstruct
   @PostLoad
   @PostUpdate
   public void updateBiddingStatus() {
@@ -73,6 +73,6 @@ public class Project extends Identified {
     } else {
       biddingStatus = (bidRequest == null) ? BiddingStatus.NO_WINNER : BiddingStatus.WINNER;
     }
-  }*/
+  }
   
 }

@@ -427,7 +427,7 @@ definitions:
       id:
         type: string
         format: uuid
-        readOnly: true
+        #readOnly: true
       title:
         type: string
         example: translate text from English to Spanish

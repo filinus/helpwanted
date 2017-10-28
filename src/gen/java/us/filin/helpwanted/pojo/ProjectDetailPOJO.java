@@ -89,6 +89,11 @@ public class ProjectDetailPOJO   {
   @JsonProperty("winningPrice")
   private BigDecimal winningPrice = null;
 
+  public ProjectDetailPOJO id(UUID id) {
+    this.id = id;
+    return this;
+  }
+
   /**
    * Get id
    * @return id
@@ -97,6 +102,10 @@ public class ProjectDetailPOJO   {
   @ApiModelProperty(value = "")
   public UUID getId() {
     return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
   }
 
   public ProjectDetailPOJO title(String title) {

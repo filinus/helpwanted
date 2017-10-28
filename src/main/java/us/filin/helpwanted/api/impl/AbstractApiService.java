@@ -10,6 +10,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import java.util.UUID;
 
+import static us.filin.helpwanted.jpa.Project.VisibilityStatus.VISIBLE;
+
 public abstract class AbstractApiService implements ApiServiceInContext {
   @Context
   protected ServletContext servletContext;
@@ -37,7 +39,11 @@ public abstract class AbstractApiService implements ApiServiceInContext {
   }
   
   protected User findUser(String username) {
-    User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+    User user = em().createQuery(
+      "SELECT u " +
+      "FROM User u "+
+      "WHERE u.username = :username",
+      User.class)
       .setParameter("username", username)
       .getSingleResult();
     return user;
@@ -48,8 +54,10 @@ public abstract class AbstractApiService implements ApiServiceInContext {
     Project project = em().createQuery(
       "SELECT p "+
         "FROM Project p " +
+        "LEFT JOIN FETCH BidRequest b " +
+        "LEFT JOIN FETCH User u " +
         "WHERE p.id = :project_id " +
-        "AND p.visibilityStatus = Project.VisibilityStatus.VISIBLE "
+        "AND p.visibilityStatus = " + VISIBLE.getDeclaringClass().getCanonicalName()+'.'+VISIBLE.name()
       ,
       Project.class)
       .setParameter("project_id", projectId.toString().toUpperCase())

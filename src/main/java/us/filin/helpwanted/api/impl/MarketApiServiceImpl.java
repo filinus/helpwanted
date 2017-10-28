@@ -29,12 +29,7 @@ public class MarketApiServiceImpl extends AbstractApiService implements MarketAp
     @Override
     public Response getProjectById(UUID projectId, SecurityContext securityContext) throws NotFoundException {
         Project project = getProject(projectId);
-        BidRequest bidRequest = project.getBidRequest();
         ProjectDetailPOJO projectDetailPOJO = ProjectDetailMapper.INSTANCE.toPOJO(project);
-        if (bidRequest!=null) {
-            projectDetailPOJO.setWinningPrice(bidRequest.getPrice());
-        }
-        
         return Response.ok().entity(projectDetailPOJO).build();
     }
 }
