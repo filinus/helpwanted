@@ -12,7 +12,7 @@ import io.swagger.jaxrs.*;
 
 import java.util.Map;
 import java.util.List;
-import {{package}}.NotFoundException;
+import {{package}}.ApiException;
 
 import java.io.InputStream;
 
@@ -76,7 +76,7 @@ public class {{classname}}  {
         @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},
         {{/hasMore}}{{/responses}} })
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}}@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{paramName}}InputStream, {{paramName}}Detail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}},{{/allParams}}securityContext);
     }
 {{/operation}}

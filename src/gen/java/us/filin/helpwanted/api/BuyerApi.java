@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
-import us.filin.helpwanted.api.NotFoundException;
+import us.filin.helpwanted.api.ApiException;
 
 import java.io.InputStream;
 
@@ -72,7 +72,7 @@ public class BuyerApi  {
     public Response bidBuyerProject(@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") UUID projectId
 ,@ApiParam(value = "Bid on project" ,required=true) BidRequestPOJO body
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.bidBuyerProject(projectId,body,securityContext);
     }
     @POST
@@ -88,7 +88,7 @@ public class BuyerApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found", response = Void.class) })
     public Response bookmarkBuyerProject(@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.bookmarkBuyerProject(projectId,securityContext);
     }
     @DELETE
@@ -102,7 +102,7 @@ public class BuyerApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
     public Response deleteBuyerProjectBookmark(@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.deleteBuyerProjectBookmark(projectId,securityContext);
     }
     @GET
@@ -120,7 +120,7 @@ public class BuyerApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Void.class) })
     public Response findBuyersProjects(@ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="active, published, finished") @QueryParam("status") List<String> status
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.findBuyersProjects(status,securityContext);
     }
     @GET
@@ -136,7 +136,7 @@ public class BuyerApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
     public Response getBuyerProject(@ApiParam(value = "an existing project ID",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.getBuyerProject(projectId,securityContext);
     }
 }

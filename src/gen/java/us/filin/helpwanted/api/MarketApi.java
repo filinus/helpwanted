@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
-import us.filin.helpwanted.api.NotFoundException;
+import us.filin.helpwanted.api.ApiException;
 
 import java.io.InputStream;
 
@@ -74,7 +74,7 @@ public class MarketApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Void.class) })
     public Response findProjectsByStatus(@ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="active, published, finished") @QueryParam("status") List<String> status
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.findProjectsByStatus(status,securityContext);
     }
     @GET
@@ -92,7 +92,7 @@ public class MarketApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found on market", response = Void.class) })
     public Response getProjectById(@ApiParam(value = "ID of project to return",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.getProjectById(projectId,securityContext);
     }
 }

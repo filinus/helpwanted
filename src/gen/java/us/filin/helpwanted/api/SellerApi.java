@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
-import us.filin.helpwanted.api.NotFoundException;
+import us.filin.helpwanted.api.ApiException;
 
 import java.io.InputStream;
 
@@ -73,7 +73,7 @@ public class SellerApi  {
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response addSellerProject(@ApiParam(value = "Project description object that needs to be added" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.addSellerProject(body,securityContext);
     }
     @DELETE
@@ -95,7 +95,7 @@ public class SellerApi  {
             @FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.deleteProjectImage(projectId,imageId,additionalMetadata,fileInputStream, fileDetail,securityContext);
     }
     @DELETE
@@ -114,7 +114,7 @@ public class SellerApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Project not found", response = Void.class) })
     public Response deleteSellerProject(@ApiParam(value = "A seller's existing project",required=true) @PathParam("projectId") UUID projectId
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.deleteSellerProject(projectId,securityContext);
     }
     @GET
@@ -130,7 +130,7 @@ public class SellerApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "TODO", response = Void.class) })
     public Response getSellerProjects(@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.getSellerProjects(securityContext);
     }
     @PUT
@@ -152,7 +152,7 @@ public class SellerApi  {
     public Response updateSellerProject(@ApiParam(value = "A seller's existing project ",required=true) @PathParam("projectId") UUID projectId
 ,@ApiParam(value = "Project description that needs to be updated" ,required=true) ProjectPOJO body
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.updateSellerProject(projectId,body,securityContext);
     }
     @POST
@@ -173,7 +173,7 @@ public class SellerApi  {
             @FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail
 ,@Context SecurityContext securityContext)
-    throws NotFoundException {
+    throws ApiException {
         return delegate.uploadFile(projectId,additionalMetadata,fileInputStream, fileDetail,securityContext);
     }
 }
