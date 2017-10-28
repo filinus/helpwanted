@@ -35,14 +35,7 @@ consumes:
 produces:
   - application/json
 paths:
-  '/seller/{username}/projects/':
-    parameters:
-      - name: username
-        in: path
-        description: The seller's username
-        default: me
-        required: true
-        type: string
+  '/seller/projects/':
     get:
       tags:
         - seller
@@ -76,13 +69,8 @@ paths:
         - helpwanted_auth:
             - 'write:projects'
             - 'bid:projects'
-  '/seller/{username}/projects/{projectId}':
+  '/seller/projects/{projectId}':
     parameters:
-      - name: username
-        in: path
-        description: The seller's username
-        required: true
-        type: string
       - name: projectId
         in: path
         description: 'A seller''s existing project '
@@ -120,11 +108,6 @@ paths:
       description: Delete an existing seller's project if project hidden or finished without bids
       operationId: deleteSellerProject
       parameters:
-        - name: username
-          in: path
-          description: The seller's username
-          required: true
-          type: string
         - name: projectId
           in: path
           description: A seller's existing project
@@ -201,7 +184,7 @@ paths:
           description: Project not found on market
       security:
         - api_key: []
-  '/seller/{username}/projects/{projectId}/images':
+  '/seller/projects/{projectId}/images':
     post:
       tags:
         - seller
@@ -213,11 +196,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: username
-          in: path
-          description: Seller's username
-          required: true
-          type: string
         - name: projectId
           in: path
           description: ID of project to update
@@ -243,7 +221,7 @@ paths:
         - helpwanted_auth:
             - 'write:projects'
             - 'bid:projects'
-  '/seller/{username}/projects/{projectId}/images/{imageId}':
+  '/seller/projects/{projectId}/images/{imageId}':
     delete:
       tags:
         - seller
@@ -255,11 +233,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: username
-          in: path
-          description: Seller's username
-          required: true
-          type: string
         - name: projectId
           in: path
           description: ID of project containg image
@@ -290,7 +263,7 @@ paths:
         - helpwanted_auth:
             - 'write:projects'
             - 'bid:projects'
-  '/buyer/{username}/projects':
+  '/buyer/projects':
     get:
       tags:
         - buyer
@@ -300,11 +273,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: username
-          in: path
-          description: The buyer's username
-          required: true
-          type: string
         - name: status
           in: query
           description: Status values that need to be considered for filter
@@ -330,13 +298,8 @@ paths:
       security:
         - helpwanted_auth:
             - 'bid:projects'
-  '/buyer/{username}/projects/{projectId}':
+  '/buyer/projects/{projectId}':
     parameters:
-      - name: username
-        in: path
-        description: The buyer's username
-        required: true
-        type: string
       - name: projectId
         in: path
         description: an existing project ID
@@ -452,7 +415,7 @@ definitions:
       id:
         type: string
         format: uuid
-        readOnly: true
+        #readOnly: true
       title:
         type: string
         example: translate text from English to Spanish

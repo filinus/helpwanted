@@ -1,5 +1,6 @@
 package us.filin.helpwanted.mapping;
 
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import us.filin.helpwanted.jpa.Identified;
 import us.filin.helpwanted.jpa.Timestamped;
@@ -21,10 +22,12 @@ public abstract class BasicMapper<Persitent extends Timestamped, Pojo> {
   @Mappings({})
   public abstract List<Persitent> toPersistents(List<Pojo> pojos);
   
+  @Mapping(source = "id", target = "id", resultType = UUID.class)
   public UUID toUUID(String value) {
     return UUID.fromString(value);
   }
   
+  @Mapping(source = "id", target = "id", resultType = String.class)
   public String toString(UUID value) {
     return value.toString().toUpperCase();
   }

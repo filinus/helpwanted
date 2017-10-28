@@ -7,7 +7,7 @@ import java.util.Date;
 @MappedSuperclass @Getter @Setter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Timestamped {
   
-  @javax.persistence.Temporal(TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created", nullable = false)
   private Date created;
   

@@ -19,7 +19,7 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
 
     
     @Override
-    public Response bidBuyerProject(String username, UUID projectId, BidRequestPOJO body, SecurityContext securityContext) throws NotFoundException {
+    public Response bidBuyerProject(UUID projectId, BidRequestPOJO body, SecurityContext securityContext) throws NotFoundException {
         if (body == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "bid payload lost")).build();
         }
@@ -63,7 +63,7 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
     }
     
     @Override
-    public Response bookmarkBuyerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
+    public Response bookmarkBuyerProject(UUID projectId, SecurityContext securityContext) throws NotFoundException {
         setupCurrentUser(securityContext);
         
         Project project = getProject(projectId);
@@ -88,17 +88,17 @@ public class BuyerApiServiceImpl extends AbstractApiService implements BuyerApiS
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "hghgjhgh")).build();
     }
     @Override
-    public Response deleteBuyerProjectBookmark(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
+    public Response deleteBuyerProjectBookmark(UUID projectId, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response findBuyersProjects(String username,  @NotNull List<String> status, SecurityContext securityContext) throws NotFoundException {
+    public Response findBuyersProjects(@NotNull List<String> status, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response getBuyerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
+    public Response getBuyerProject(UUID projectId, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

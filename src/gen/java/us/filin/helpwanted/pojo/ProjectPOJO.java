@@ -37,6 +37,11 @@ public class ProjectPOJO   {
   @JsonProperty("description")
   private String description = null;
 
+  public ProjectPOJO id(UUID id) {
+    this.id = id;
+    return this;
+  }
+
   /**
    * Get id
    * @return id
@@ -45,6 +50,10 @@ public class ProjectPOJO   {
   @ApiModelProperty(value = "")
   public UUID getId() {
     return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
   }
 
   public ProjectPOJO title(String title) {

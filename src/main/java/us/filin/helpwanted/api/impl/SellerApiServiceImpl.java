@@ -20,20 +20,22 @@ import javax.ws.rs.core.SecurityContext;
 
 public class SellerApiServiceImpl extends AbstractApiService implements SellerApiService {
     @Override
-    public Response addSellerProject(String username, ProjectPOJO body, SecurityContext securityContext) throws NotFoundException {
+    public Response addSellerProject(ProjectPOJO body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response deleteProjectImage(String username, UUID projectId, String imageId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
+    public Response deleteProjectImage(UUID projectId, String imageId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response deleteSellerProject(String username, UUID projectId, SecurityContext securityContext) throws NotFoundException {
-        int result = em().createQuery("DELETE FROM Project p WHERE p.id = :project_id AND p.owner.username = :username")
+    public Response deleteSellerProject(UUID projectId, SecurityContext securityContext) throws NotFoundException {
+        setupCurrentUser(securityContext);
+        
+        int result = em().createQuery("DELETE FROM Project p WHERE p.id = :project_id AND p.owner.id = :owner_id")
             .setParameter("project_id", projectId.toString().toUpperCase())
-            .setParameter("username", username)
+            .setParameter("owner_id", user.getId())
             .executeUpdate();
         
         switch (result) {
@@ -47,9 +49,11 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
         }
     }
     @Override
-    public Response getSellerProjects(String username, SecurityContext securityContext) throws NotFoundException {
-        List<Project> projects = em().createQuery("SELECT p FROM Project p WHERE p.owner.username = :username ORDER BY P.updated DESC, P.id", Project.class)
-          .setParameter("username", username)
+    public Response getSellerProjects(SecurityContext securityContext) throws NotFoundException {
+        setupCurrentUser(securityContext);
+        
+        List<Project> projects = em().createQuery("SELECT Project FROM Project p WHERE p.owner.id = :user_id ORDER BY p.updated DESC, p.id", Project.class)
+          .setParameter("user_id", user.getId())
           .setMaxResults(1000) // TODO pagination
           .getResultList();
         List<ProjectDetailPOJO> projectJsons = ProjectDetailMapper.INSTANCE.toPOJOs(projects);
@@ -57,13 +61,13 @@ public class SellerApiServiceImpl extends AbstractApiService implements SellerAp
         return Response.ok().entity(projectJsons).build();
     }
     @Override
-    public Response updateSellerProject(String username, UUID projectId, ProjectPOJO body, SecurityContext securityContext) throws NotFoundException {
+    public Response updateSellerProject(UUID projectId, ProjectPOJO body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     
     @Override
-    public Response uploadFile(String username, UUID projectId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
+    public Response uploadFile(UUID projectId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 }
